@@ -7,12 +7,16 @@ import {
   Service,
   BigNFTSilder,
   Subscribe,
+  Title,
   Category,
   Filter,
   NFTCard,
   Collection,
+  AudioLive,
   FollowerTab,
-  Title,
+  Slider,
+  Brand,
+  Video,
 } from "../components/componentsindex";
 
 const Home = () => {
@@ -21,7 +25,13 @@ const Home = () => {
       <HeroSection />
       <Service />
       <BigNFTSilder />
+      <Title
+        heading="Audio Collection"
+        paragraph="Discover the most outstanding NFTs in all topics of life."
+      />
+      <AudioLive />
       <FollowerTab />
+      <Slider />
       <Collection />
       <Title
         heading="Featured NFTs"
@@ -35,6 +45,8 @@ const Home = () => {
       />
       <Category />
       <Subscribe />
+      <Brand />
+      <Video />
     </div>
   );
 };

@@ -13,7 +13,7 @@ const Discover = () => {
     },
     {
       name: "Search",
-      link: "search",
+      link: "searchPage",
     },
     {
       name: "Author Profile",
@@ -25,7 +25,7 @@ const Discover = () => {
     },
     {
       name: "Account Setting",
-      link: "account-setting",
+      link: "account",
     },
     {
       name: "Connect Wallet",
