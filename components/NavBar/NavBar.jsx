@@ -75,12 +75,12 @@ const NavBar = () => {
       <div className={Style.navbar_container}>
         <div className={Style.navbar_container_left}>
           <div className={Style.logo}>
-            <Image
+            {/* <Image
               src={images.logo}
               alt="NFT MARKET PLACE"
               width={100}
               height={100}
-            />
+            /> */}
           </div>
           <div className={Style.navbar_container_left_box_input}>
             <div className={Style.navbar_container_left_box_input_box}>
@@ -123,7 +123,7 @@ const NavBar = () => {
 
           {/* CREATE BUTTON SECTION */}
           <div className={Style.navbar_container_right_button}>
-            <Button btnName="Create" handleClick={() => {}} />
+            <Button btnName="Connect" handleClick={() => {}} />
           </div>
 
           {/* USER PROFILE */}
