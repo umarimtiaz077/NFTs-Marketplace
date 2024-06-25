@@ -24,7 +24,8 @@ const collection = () => {
   ];
   return (
     <div className={Style.collection}>
-      {/* <CollectionProfile /> */}
+      <Banner bannerImage={images.creatorbackground1} />
+      <CollectionProfile />
       <Filter />
       <NFTCardTwo NFTData={collectionArray} />
 

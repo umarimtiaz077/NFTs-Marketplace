@@ -97,7 +97,7 @@ const Profile = ({ walletAddress }) => {
           <div className={Style.profile_menu_one_item}>
             <FaRegImage />
             <p>
-              <Link href={{ pathname: "/my-items" }}>My Items</Link>
+              <Link href={{ pathname: "/author" }}>My Items</Link>
             </p>
           </div>
           <div className={Style.profile_menu_one_item}>

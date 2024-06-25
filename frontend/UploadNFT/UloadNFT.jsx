@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import axios from 'axios';
 import { MdOutlineHttp, MdOutlineAttachFile } from "react-icons/md";
-import { FaPercent } from "react-icons/fa";
+import { FaPercent, FaDollarSign } from "react-icons/fa";
 import { AiTwotonePropertySafety } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
 import Image from "next/image";
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "./Upload.module.css";
 import formStyle from "../AccountPage/Form/Form.module.css";
 import images from "../img";
 import { Button } from "../components/componentsindex.js";
 import { DropZone } from "../UploadNFT/uploadNFTIndex.js";
 
-const UloadNFT = () => {
+const UploadNFT = () => {
   const [active, setActive] = useState(0);
   const [itemName, setItemName] = useState("");
   const [website, setWebsite] = useState("");
@@ -21,6 +22,46 @@ const UloadNFT = () => {
   const [fileSize, setFileSize] = useState("");
   const [category, setCategory] = useState(0);
   const [properties, setProperties] = useState("");
+  const [image, setImage] = useState(null);
+  const [price, setPrice] = useState(""); // New state for price
+  const [successMessage, setSuccessMessage] = useState(""); // State for success message
+
+  const dropZoneRef = useRef(null); // Reference for DropZone
+
+  const handleUpload = async () => {
+    const formData = {
+      itemName,
+      website,
+      description,
+      royalties,
+      fileSize,
+      category,
+      properties,
+      image, // Pass the base64 image data
+      userAddress: "0x1234...", // Replace with the actual user address
+      price // Add price to form data
+    };
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/nfts/create', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('NFT created successfully:', response.data);
+      setSuccessMessage('NFT created successfully!'); // Set success message
+    } catch (error) {
+      console.error('Error uploading NFT:', error);
+    }
+  };
+
+  const handlePreview = () => {
+    dropZoneRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleFileChange = (file) => {
+    setImage(file);
+  };
 
   const categoryArry = [
     {
@@ -51,19 +92,23 @@ const UloadNFT = () => {
 
   return (
     <div className={Style.upload}>
-      <DropZone
-        title="JPG, PNG, WEBM , MAX 100MB"
-        heading="Drag & drop file"
-        subHeading="or Browse media on your device"
-        itemName={itemName}
-        website={website}
-        description={description}
-        royalties={royalties}
-        fileSize={fileSize}
-        category={category}
-        properties={properties}
-        image={images.upload}
-      />
+      <div ref={dropZoneRef}>
+        <DropZone
+          title="JPG, PNG, WEBM , MAX 100MB"
+          heading="Drag & drop file"
+          subHeading="or Browse media on your device"
+          itemName={itemName}
+          website={website}
+          description={description}
+          royalties={royalties}
+          fileSize={fileSize}
+          category={category}
+          properties={properties}
+          image={images.upload}
+          onDrop={handleFileChange}
+          price={price} // Pass the price to DropZone
+        />
+      </div>
 
       <div className={Style.upload_box}>
         <div className={formStyle.Form_box_input}>
@@ -116,7 +161,7 @@ const UloadNFT = () => {
         <div className={formStyle.Form_box_input}>
           <label htmlFor="name">Choose collection</label>
           <p className={Style.upload_box_input_para}>
-            Choose an exiting collection or create a new one
+            This is the collection where your item will appear.
           </p>
 
           <div className={Style.upload_box_slider_div}>
@@ -126,7 +171,9 @@ const UloadNFT = () => {
                   active == i + 1 ? Style.active : ""
                 }`}
                 key={i + 1}
-                onClick={() => (setActive(i + 1), setCategory(el.category))}
+                onClick={() => (
+                  setActive(i + 1), setCategory(el.category)
+                )}
               >
                 <div className={Style.upload_box_slider_box}>
                   <div className={Style.upload_box_slider_box_img}>
@@ -142,7 +189,7 @@ const UloadNFT = () => {
                     <TiTick />
                   </div>
                 </div>
-                <p>Crypto Legend - {el.category} </p>
+                <p>{el.category}</p>
               </div>
             ))}
           </div>
@@ -162,29 +209,46 @@ const UloadNFT = () => {
               />
             </div>
           </div>
+
           <div className={formStyle.Form_box_input}>
-            <label htmlFor="size">Size</label>
+            <label htmlFor="size">File Size</label>
             <div className={formStyle.Form_box_input_box}>
               <div className={formStyle.Form_box_input_box_icon}>
                 <MdOutlineAttachFile />
               </div>
+
               <input
                 type="text"
-                placeholder="165MB"
+                placeholder="100MB"
                 onChange={(e) => setFileSize(e.target.value)}
               />
             </div>
           </div>
+
           <div className={formStyle.Form_box_input}>
-            <label htmlFor="Propertie">Propertie</label>
+            <label htmlFor="Properties">Properties</label>
             <div className={formStyle.Form_box_input_box}>
               <div className={formStyle.Form_box_input_box_icon}>
                 <AiTwotonePropertySafety />
               </div>
               <input
                 type="text"
-                placeholder="Propertie"
+                placeholder="Properties"
                 onChange={(e) => setProperties(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={formStyle.Form_box_input}>
+            <label htmlFor="Price">Price</label>
+            <div className={formStyle.Form_box_input_box}>
+              <div className={formStyle.Form_box_input_box_icon}>
+                <FaDollarSign />
+              </div>
+              <input
+                type="text"
+                placeholder="Price"
+                onChange={(e) => setPrice(e.target.value)}
               />
             </div>
           </div>
@@ -192,19 +256,20 @@ const UloadNFT = () => {
 
         <div className={Style.upload_box_btn}>
           <Button
-            btnName="Upload"
-            handleClick={() => {}}
-            classStyle={Style.upload_box_btn_style}
+            btnName="Preview"
+            handleClick={handlePreview}
+            classStyle={Style.button}
           />
           <Button
-            btnName="Preview"
-            handleClick={() => {}}
-            classStyle={Style.upload_box_btn_style}
+            btnName="Upload"
+            handleClick={handleUpload}
+            classStyle={Style.button}
           />
         </div>
+        {successMessage && <p className={Style.success}>{successMessage}</p>}
       </div>
     </div>
   );
 };
 
-export default UloadNFT;
+export default UploadNFT;

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "../styles/author.module.css";
 import { Banner, NFTCardTwo } from "../collectionPage/collectionIndex";
 import { Brand, Title } from "../components/componentsindex";
-import FollowerTabCard from "../components/FollowerTab/FollowerTabCard/FollowerTabCard";
 import images from "../img";
 import {
   AuthorProfileCard,
@@ -45,6 +45,23 @@ const author = () => {
   const [like, setLike] = useState(false);
   const [follower, setFollower] = useState(false);
   const [following, setFollowing] = useState(false);
+  const [createdNFTs, setCreatedNFTs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCreatedNFTs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/nfts/user/0x1234...'); // Replace with actual user address
+        setCreatedNFTs(response.data);
+      } catch (error) {
+        console.error('Error fetching created NFTs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCreatedNFTs();
+  }, []);
 
   return (
     <div className={Style.author}>
@@ -58,25 +75,19 @@ const author = () => {
         setFollowing={setFollowing}
       />
 
-      <AuthorNFTCardBox
-        collectiables={collectiables}
-        created={created}
-        like={like}
-        follower={follower}
-        following={following}
-      />
-      <Title
-        heading="Popular Creators"
-        paragraph="Click on music icon and enjoy NTF music or audio
-"
-      />
-      <div className={Style.author_box}>
-        {followerArray.map((el, i) => (
-          <FollowerTabCard i={i} el={el} />
-        ))}
-      </div>
-
-      <Brand />
+      {!loading ? (
+        <AuthorNFTCardBox
+          collectiables={collectiables}
+          created={created}
+          like={like}
+          follower={follower}
+          following={following}
+          createdNFTs={createdNFTs} // Pass the created NFTs to the component
+        />
+      ) : (
+        <p>Loading...</p> // Show loading text or spinner while fetching data
+      )}
+      
     </div>
   );
 };

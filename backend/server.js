@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -27,7 +26,9 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Routes
 const userRoutes = require('./routes/users');
+const nftRoutes = require('./routes/nfts');
 app.use('/api/users', userRoutes);
+app.use('/api/nfts', nftRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

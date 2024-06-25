@@ -65,3 +65,11 @@
          grid-template-columns: repeat(2, 1fr);
      }
  }
+
+ .successMessage {
+    color: white;
+    font-size: 1.2em;
+    margin-top: 10px;
+    text-align: center;
+  }
+  

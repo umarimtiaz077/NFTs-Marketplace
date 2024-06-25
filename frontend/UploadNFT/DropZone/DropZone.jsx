@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 
-//INTRNAL IMPORT
+// INTERNAL IMPORT
 import Style from "./DropZone.module.css";
 import images from "../../img";
 
@@ -18,18 +18,29 @@ const DropZone = ({
   category,
   properties,
   image,
+  price, // Add price prop
+  onDrop,
 }) => {
   const [fileUrl, setFileUrl] = useState(null);
 
-  const onDrop = useCallback(async (acceptedFile) => {
-    setFileUrl(acceptedFile[0]);
-  });
+  const handleDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    setFileUrl(URL.createObjectURL(file));
+
+    // Convert file to base64
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      onDrop(reader.result); // Pass the base64 string back to the parent component
+    };
+  }, [onDrop]);
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: "image/*",
-    maxSize: 5000000,
+    onDrop: handleDrop,
+    accept: "image/*,video/*,audio/*,model/gltf-binary,model/gltf+json",
+    maxSize: 100000000, // 100 MB
   });
+
   return (
     <div className={Style.DropZone}>
       <div className={Style.DropZone_box} {...getRootProps()}>
@@ -38,7 +49,7 @@ const DropZone = ({
           <p>{title}</p>
           <div className={Style.DropZone_box_input_img}>
             <Image
-              src={image}
+              src={fileUrl || image}
               alt="upload"
               width={100}
               height={100}
@@ -55,12 +66,11 @@ const DropZone = ({
         <aside className={Style.DropZone_box_aside}>
           <div className={Style.DropZone_box_aside_box}>
             <Image
-              src={images.nft_image_1}
+              src={fileUrl}
               alt="nft image"
               width={200}
               height={200}
             />
-
             <div className={Style.DropZone_box_aside_box_preview}>
               <div className={Style.DropZone_box_aside_box_preview_one}>
                 <p>
@@ -96,6 +106,10 @@ const DropZone = ({
                 <p>
                   <span>Category</span>
                   {category || ""}
+                </p>
+                <p>
+                  <span>Price</span> {/* Display price */}
+                  {price || ""}
                 </p>
               </div>
             </div>
