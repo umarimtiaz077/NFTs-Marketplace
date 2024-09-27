@@ -106,7 +106,7 @@ const AuthorNFTCardBox = ({
             <FollowerTabCard i={i} el={el} />
           ))}
         </div>
-      )}
+      )}.
     </div>
   );
 };
