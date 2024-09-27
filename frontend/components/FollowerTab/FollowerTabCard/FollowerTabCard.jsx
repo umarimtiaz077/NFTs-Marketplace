@@ -55,22 +55,6 @@ const FollowerTabCard = ({ i, el }) => {
             </h4>
             <p>12.321 ETH</p>
           </div>
-
-          {/*  Removed Soon --- 1
-          <div className={Style.FollowerTabCard_box_info_following}>
-            {following ? (
-              <a onClick={() => followMe()}>
-                Follow{""}{" "}
-                <span>
-                  <TiTick />
-                </span>
-              </a>
-            ) : (
-              <a onClick={() => followMe()}>Following</a>
-            )}
-          </div>
-              */}
-
         </div>
       </div>
     </div>
