@@ -81,6 +81,8 @@
     line-height: 0;
 }
 
+/*  Removed Soon --- 2 
+
 .FollowerTabCard_box_info_following a{
     background-color: var(--shadow-dark-color);
     padding: .7rem 1.5rem;
@@ -92,6 +94,8 @@
 .FollowerTabCard_box_info_following a:hover{
     background-color: transparent;
 }
+
+*/
 
 @media screen and (min-device-width:320px)  {
     .FollowerTabCard_box_profile::before{
