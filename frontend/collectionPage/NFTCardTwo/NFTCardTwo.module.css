@@ -4,13 +4,15 @@
   gap: 1rem;
   padding: 0 3rem;
   position: relative;
+  height: 150vh;
 }
 
 /* Zain CSS Addition */
 .nftsFilterLeft {
   position: sticky;
-  top: 0;
+  top: 1.5rem;
   width: 25%;
+  height: 75vh;
   display: flex;
   flex-direction: column;
   border: 2px solid #2b2e31;
@@ -45,8 +47,8 @@
   cursor: pointer;
   transition: all 0.3s ease-in;
   border-radius: 1rem;
-
   /* Zain Css Addition */
+  height: 60vh;
   padding: 8px;
   border: 2px solid #2b2e31;
 }
