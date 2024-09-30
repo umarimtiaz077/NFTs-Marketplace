@@ -1,0 +1,143 @@
+.NFTs_Detail_Page {
+    width: 100vw;
+    display: flex;
+    padding: 20px 80px;
+  }
+  
+  .NFTs_Detail_Page_leftSide {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .NFTs_Detail_Page_leftSide > img {
+    height: 72vh;
+    border-radius: 15px;
+  }
+  
+  .NFTs_Detail_Page_rightSide {
+    width: 50%;
+    padding-left: 5rem;
+  }
+  
+  .NFTs_Detail_Page_rightSide > h5 {
+    font-size: large;
+  }
+  
+  .NFTs_Detail_Page_rightSide > h2 {
+    font-size: xx-large;
+    margin-top: -18px;
+  }
+  
+  .NFTs_Detail_Page_rightSide > h6 {
+    color: #a3a4a5;
+    font-size: small;
+    margin-top: -20px;
+  }
+  
+  .users,
+  .creator,
+  .onwer {
+    display: flex;
+  }
+  
+  .users {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    padding: 0 5px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2b2e31;
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #63ff34, #20ecf7);
+    margin-right: 10px;
+  }
+  
+  .text {
+    text-align: left;
+  }
+  
+  .text p {
+    margin: 0;
+  }
+  
+  .text p:first-child {
+    font-size: smaller;
+    color: #a3a4a5;
+  }
+  
+  .text p {
+    font-weight: bold;
+  }
+  
+  .purchaseCard {
+    padding: 15px;
+    margin-top: 50px;
+    border: 1px solid #2b2e31;
+    border-radius: 15px;
+  }
+  
+  .priceCard {
+    text-align: left;
+    height: 8rem;
+    padding: 5px 20px;
+    background-color: #2b2e31;
+    border-radius: 15px;
+  }
+  
+  .priceCard h5{
+    line-height: 0%;
+    color: #a3a4a5;
+  }
+  
+  .btnDiv{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .buyBtn{
+    width: 85%;
+    padding: 20px 0;
+    border: none;
+    text-align: center;
+    border-radius: 20px;
+    background-color: white;
+    color: #2b2e31;
+    font-size: medium;
+    font-weight: 600;
+  }
+  
+  .extraBtn{
+    width: 15%;
+    border: none;
+    border-radius: 20px;
+    background-color: white;
+    color: #111;
+    font-weight: 500;
+    font-size: xx-large;
+  }
+  
+  .purchaseCard .saleTag{
+    line-height: 0%;
+    font-size: small;
+    text-align: center;
+    color: #ddddde;
+  }
+  
+  .purchaseCard h6{
+    line-height: 0%;
+    color: #a3a4a5;
+    text-align: center;
+    font-size: small;
+  }
