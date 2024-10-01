@@ -23,17 +23,20 @@ const DropZone = ({
 }) => {
   const [fileUrl, setFileUrl] = useState(null);
 
-  const handleDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    setFileUrl(URL.createObjectURL(file));
+  const handleDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setFileUrl(URL.createObjectURL(file));
 
-    // Convert file to base64
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      onDrop(reader.result); // Pass the base64 string back to the parent component
-    };
-  }, [onDrop]);
+      // Convert file to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        onDrop(reader.result); // Pass the base64 string back to the parent component
+      };
+    },
+    [onDrop]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDrop,
@@ -48,15 +51,13 @@ const DropZone = ({
         <div className={Style.DropZone_box_input}>
           <p>{title}</p>
           <div className={Style.DropZone_box_input_img}>
-            <Image
+            <img
               src={fileUrl || image}
-              alt="upload"
-              width={100}
-              height={100}
               objectFit="contain"
               className={Style.DropZone_box_input_img_img}
             />
           </div>
+            <p className={Style.choose}>Choose File</p>
           <p>{heading}</p>
           <p>{subHeading}</p>
         </div>
@@ -65,47 +66,16 @@ const DropZone = ({
       {fileUrl && (
         <aside className={Style.DropZone_box_aside}>
           <div className={Style.DropZone_box_aside_box}>
-            <Image
+            <img
+              className={Style.NFTimgPreview}
               src={fileUrl}
               alt="nft image"
-              width={200}
-              height={200}
             />
             <div className={Style.DropZone_box_aside_box_preview}>
               <div className={Style.DropZone_box_aside_box_preview_one}>
                 <p>
                   <samp>NFT Name:</samp>
                   {itemName || ""}
-                </p>
-                <p>
-                  <samp>Website:</samp>
-                  {website || ""}
-                </p>
-              </div>
-
-              <div className={Style.DropZone_box_aside_box_preview_two}>
-                <p>
-                  <span>Description</span>
-                  {description || ""}
-                </p>
-              </div>
-
-              <div className={Style.DropZone_box_aside_box_preview_three}>
-                <p>
-                  <span>Royalties</span>
-                  {royalties || ""}
-                </p>
-                <p>
-                  <span>FileSize</span>
-                  {fileSize || ""}
-                </p>
-                <p>
-                  <span>Properties</span>
-                  {properties || ""}
-                </p>
-                <p>
-                  <span>Category</span>
-                  {category || ""}
                 </p>
                 <p>
                   <span>Price</span> {/* Display price */}
