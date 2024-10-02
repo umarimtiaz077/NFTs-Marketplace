@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { MdOutlineHttp, MdOutlineAttachFile } from "react-icons/md";
 import { FaPercent, FaDollarSign } from "react-icons/fa";
 import { AiTwotonePropertySafety } from "react-icons/ai";
@@ -39,19 +39,23 @@ const UploadNFT = () => {
       properties,
       image, // Pass the base64 image data
       userAddress: "0x1234...", // Replace with the actual user address
-      price // Add price to form data
+      price, // Add price to form data
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/api/nfts/create', formData, {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        "http://localhost:5000/api/nfts/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
-      console.log('NFT created successfully:', response.data);
-      setSuccessMessage('NFT created successfully!'); // Set success message
+      );
+      console.log("NFT created successfully:", response.data);
+      setSuccessMessage("NFT created successfully!"); // Set success message
     } catch (error) {
-      console.error('Error uploading NFT:', error);
+      console.error("Error uploading NFT:", error);
     }
   };
 
@@ -65,28 +69,12 @@ const UploadNFT = () => {
 
   const categoryArry = [
     {
-      image: images.nft_image_1,
-      category: "Sports",
+      image: images.provider_1,
+      category: "Meta Mask",
     },
     {
-      image: images.nft_image_2,
-      category: "Arts",
-    },
-    {
-      image: images.nft_image_3,
-      category: "Music",
-    },
-    {
-      image: images.nft_image_1,
-      category: "Digital",
-    },
-    {
-      image: images.nft_image_2,
-      category: "Time",
-    },
-    {
-      image: images.nft_image_3,
-      category: "Photography",
+      image: images.provider_2,
+      category: "Crypto Cur",
     },
   ];
 
@@ -98,7 +86,6 @@ const UploadNFT = () => {
           heading="Drag & drop file"
           subHeading="or Browse media on your device"
           itemName={itemName}
-          website={website}
           description={description}
           royalties={royalties}
           fileSize={fileSize}
@@ -112,34 +99,13 @@ const UploadNFT = () => {
 
       <div className={Style.upload_box}>
         <div className={formStyle.Form_box_input}>
-          <label htmlFor="nft">Item Name</label>
+          <label htmlFor="nft">Name</label>
           <input
             type="text"
             placeholder="shoaib bhai"
             className={formStyle.Form_box_input_userName}
             onChange={(e) => setItemName(e.target.value)}
           />
-        </div>
-
-        <div className={formStyle.Form_box_input}>
-          <label htmlFor="website">Website</label>
-          <div className={formStyle.Form_box_input_box}>
-            <div className={formStyle.Form_box_input_box_icon}>
-              <MdOutlineHttp />
-            </div>
-
-            <input
-              type="text"
-              placeholder="website"
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-          </div>
-
-          <p className={Style.upload_box_input_para}>
-            Ciscrypt will include a link to this URL on this item's detail page,
-            so that users can click to learn more about it. You are welcome to
-            link to your own webpage with more details.
-          </p>
         </div>
 
         <div className={formStyle.Form_box_input}>
@@ -158,6 +124,36 @@ const UploadNFT = () => {
           </p>
         </div>
 
+        <div className={formStyle.Form_box_input_social}>
+          <div className={formStyle.Form_box_input}>
+            <label htmlFor="Price">Price</label>
+            <div className={formStyle.Form_box_input_box}>
+              <div className={formStyle.Form_box_input_box_icon}>
+                <FaDollarSign />
+              </div>
+              <input
+                type="text"
+                placeholder="Price"
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={formStyle.Form_box_input}>
+            <label htmlFor="Royalties">Royalties</label>
+            <div className={formStyle.Form_box_input_box}>
+              <div className={formStyle.Form_box_input_box_icon}>
+                <FaPercent />
+              </div>
+              <input
+                type="text"
+                placeholder="20%"
+                onChange={(e) => setRoyalties(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className={formStyle.Form_box_input}>
           <label htmlFor="name">Choose collection</label>
           <p className={Style.upload_box_input_para}>
@@ -171,9 +167,7 @@ const UploadNFT = () => {
                   active == i + 1 ? Style.active : ""
                 }`}
                 key={i + 1}
-                onClick={() => (
-                  setActive(i + 1), setCategory(el.category)
-                )}
+                onClick={() => (setActive(i + 1), setCategory(el.category))}
               >
                 <div className={Style.upload_box_slider_box}>
                   <div className={Style.upload_box_slider_box_img}>
@@ -195,73 +189,9 @@ const UploadNFT = () => {
           </div>
         </div>
 
-        <div className={formStyle.Form_box_input_social}>
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="Royalties">Royalties</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <FaPercent />
-              </div>
-              <input
-                type="text"
-                placeholder="20%"
-                onChange={(e) => setRoyalties(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="size">File Size</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <MdOutlineAttachFile />
-              </div>
-
-              <input
-                type="text"
-                placeholder="100MB"
-                onChange={(e) => setFileSize(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="Properties">Properties</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <AiTwotonePropertySafety />
-              </div>
-              <input
-                type="text"
-                placeholder="Properties"
-                onChange={(e) => setProperties(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className={formStyle.Form_box_input}>
-            <label htmlFor="Price">Price</label>
-            <div className={formStyle.Form_box_input_box}>
-              <div className={formStyle.Form_box_input_box_icon}>
-                <FaDollarSign />
-              </div>
-              <input
-                type="text"
-                placeholder="Price"
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-
         <div className={Style.upload_box_btn}>
           <Button
-            btnName="Preview"
-            handleClick={handlePreview}
-            classStyle={Style.button}
-          />
-          <Button
-            btnName="Upload"
+            btnName="Create"
             handleClick={handleUpload}
             classStyle={Style.button}
           />

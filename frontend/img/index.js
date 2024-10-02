@@ -44,6 +44,9 @@ import update from "./update.png";
 import earn from "./eran.png";
 import NFTVideo from "./nftvideo.png";
 import hero2 from "./hero2.png";
+import provider_1 from "./provider-1.png";
+import provider_2 from "./provider-2.png";
+
 
 export default {
   hero2,
@@ -92,4 +95,6 @@ export default {
   vimeo,
   youtube,
   zgcmq,
+  provider_1,
+  provider_2
 };

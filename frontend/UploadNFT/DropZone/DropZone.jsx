@@ -57,7 +57,7 @@ const DropZone = ({
               className={Style.DropZone_box_input_img_img}
             />
           </div>
-            <p className={Style.choose}>Choose File</p>
+          <p className={Style.choose}>Choose File</p>
           <p>{heading}</p>
           <p>{subHeading}</p>
         </div>
@@ -73,13 +73,11 @@ const DropZone = ({
             />
             <div className={Style.DropZone_box_aside_box_preview}>
               <div className={Style.DropZone_box_aside_box_preview_one}>
-                <p>
-                  <samp>NFT Name:</samp>
-                  {itemName || ""}
-                </p>
+                <p>{itemName || "Untitled"}</p>
                 <p>
                   <span>Price</span> {/* Display price */}
-                  {price || ""}
+                  {price || "0 "}
+                  ETH
                 </p>
               </div>
             </div>
