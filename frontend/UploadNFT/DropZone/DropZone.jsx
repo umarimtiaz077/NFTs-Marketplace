@@ -76,7 +76,7 @@ const DropZone = ({
       <div className={Style.info}>
         <div className={Style.info_section}>
           <p>Price</p>
-          <p><strong>{price || "Not For Sale"}</strong></p>
+          <p><strong>{price || "Not For Sale"} ETH</strong></p>
         </div>
         <div className={Style.info_section}>
           <p>Highest bid</p>
