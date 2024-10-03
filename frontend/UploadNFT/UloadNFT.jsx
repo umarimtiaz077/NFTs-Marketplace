@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { MdOutlineHttp, MdOutlineAttachFile } from "react-icons/md";
-import { FaPercent, FaDollarSign } from "react-icons/fa";
-import { AiTwotonePropertySafety } from "react-icons/ai";
-import { TiTick } from "react-icons/ti";
+import { MdOutlineHttp, MdOutlineAttachFile } from "react-icons/md/index.js";
+import { FaPercent, FaDollarSign } from "react-icons/fa/index.js";
+import { AiTwotonePropertySafety } from "react-icons/ai/index.js";
+import { TiTick } from "react-icons/ti/index.js";
 import Image from "next/image";
 
 // INTERNAL IMPORT
@@ -102,7 +102,7 @@ const UploadNFT = () => {
           <label htmlFor="nft">Name</label>
           <input
             type="text"
-            placeholder="shoaib bhai"
+            placeholder='e. g. "Redeemable T-Shirt with logo"'
             className={formStyle.Form_box_input_userName}
             onChange={(e) => setItemName(e.target.value)}
           />
@@ -115,7 +115,7 @@ const UploadNFT = () => {
             id=""
             cols="30"
             rows="6"
-            placeholder="something about yourself in few words"
+            placeholder='e.g. "After purchasing you will be able to get the real T-Shirt"'
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
           <p>
