@@ -64,26 +64,29 @@ const DropZone = ({
       </div>
 
       {fileUrl && (
-        <aside className={Style.DropZone_box_aside}>
-          <div className={Style.DropZone_box_aside_box}>
-            <img
-              className={Style.NFTimgPreview}
-              src={fileUrl}
-              alt="nft image"
-            />
-            <div className={Style.DropZone_box_aside_box_preview}>
-              <div className={Style.DropZone_box_aside_box_preview_one}>
-                <p>{itemName || "Untitled"}</p>
-                <p>
-                  <span>Price</span> {/* Display price */}
-                  {price || "0 "}
-                  ETH
-                </p>
-              </div>
-            </div>
-          </div>
-        </aside>
-      )}
+  <aside className={Style.DropZone_box_aside}>
+    <div className={Style.preview_box}>
+      <div className={Style.image_container}>
+        <img src={fileUrl} alt="Preview Image" />
+      </div>
+      <div className={Style.details}>
+        <h2>Rarible x Ethereum ERC-721</h2>
+        <h3>{itemName || "Untitled"}</h3>
+      </div>
+      <div className={Style.info}>
+        <div className={Style.info_section}>
+          <p>Price</p>
+          <p><strong>{price || "Not For Sale"}</strong></p>
+        </div>
+        <div className={Style.info_section}>
+          <p>Highest bid</p>
+          <p><strong>No bids yet</strong></p>
+        </div>
+      </div>
+    </div>
+  </aside>
+)}
+
     </div>
   );
 };
