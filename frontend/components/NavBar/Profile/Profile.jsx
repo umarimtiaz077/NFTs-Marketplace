@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { FaUserAlt, FaRegImage, FaUserEdit } from "react-icons/fa";
-import { MdHelpCenter } from "react-icons/md";
-import { TbDownload } from "react-icons/tb";
 import Link from "next/link";
+import { FaCopy, FaPowerOff } from "react-icons/fa";
 import Style from "./Profile.module.css";
 
 const Profile = ({ walletAddress }) => {
@@ -52,77 +50,50 @@ const Profile = ({ walletAddress }) => {
     window.location.href = '/'; // Redirect to home or refresh the page
   };
 
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+  
+
   return (
-    <div className={Style.profile}>
-      <div className={Style.profile_account}>
-        {profileData.profileImage ? (
-          <Image
-            src={
-              profileData.profileImage.startsWith('data:image')
-                ? profileData.profileImage // Base64 image
-                : `data:image/jpeg;base64,${profileData.profileImage}` // URL image or base64 without prefix
-            }
-            alt="user profile"
-            width={50}
-            height={50}
-            className={Style.profile_account_img}
-            onError={(e) => {
-              e.target.src = '/default-profile.png'; // Fallback image if there's an error
-            }}
-          />
-        ) : (
-          <Image
-            src="/default-profile.png"
-            alt="user profile"
-            width={50}
-            height={50}
-            className={Style.profile_account_img}
-          />
-        )}
-
-        <div className={Style.profile_account_info}>
-          <p>{profileData.username}</p>
-          <small>{shortenAddress(profileData.wallet)}</small>
+    <div className={Style.whole}>
+      {/* Profile Section */}
+      <div className={Style.profile}>
+        <img
+          alt="Profile picture"
+          src={profileData.profileImage || '/default-profile.png'}
+          width={50}
+          height={50}
+        />
+        <div>
+          <div className={Style.name}>
+            {profileData.username}
+          </div>
+          <div className={Style.viewProfile}>
+            <Link href="/author">View profile</Link>
+          </div>
+        </div>
+        <div className={Style.arrow}>
+          <i className="fas fa-arrow-right"></i>
         </div>
       </div>
 
-      <div className={Style.profile_menu}>
-        <div className={Style.profile_menu_one}>
-          <div className={Style.profile_menu_one_item}>
-            <FaUserAlt />
-            <p>
-              <Link href={{ pathname: "/author" }}>My Profile</Link>
-            </p>
-          </div>
-          <div className={Style.profile_menu_one_item}>
-            <FaRegImage />
-            <p>
-              <Link href={{ pathname: "/author" }}>My Items</Link>
-            </p>
-          </div>
-          <div className={Style.profile_menu_one_item}>
-            <FaUserEdit />
-            <p>
-              <Link href={{ pathname: "/account" }}>Edit Profile</Link>
-            </p>
-          </div>
-        </div>
-
-        <div className={Style.profile_menu_two}>
-          <div className={Style.profile_menu_one_item}>
-            <MdHelpCenter />
-            <p>
-              <Link href={{ pathname: "/help" }}>Help</Link>
-            </p>
-          </div>
-          <div className={Style.profile_menu_one_item}>
-            <TbDownload />
-            <p onClick={handleDisconnect}>
-              Disconnect
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Menu Section */}
+      <ul className={Style.menu}>
+        <li><Link href="/nfts">My NFTs</Link></li>
+        <li><Link href="/collections">My Collections</Link></li>
+        <li><Link href="/bids">My Bids and Listings</Link></li>
+        <li><Link href="/activity">My Activity</Link></li>
+        <li>Create <span className={Style.dropdown}>▼</span></li>
+        <li><Link href="/sell">Sell</Link></li>
+        <li><Link href="/followings">Followings</Link></li>
+        <li><Link href="/settings">Settings</Link></li>
+      </ul>   
+      <button className={Style.disconnectButton} onClick={handleDisconnect}>
+      <i className="fas fa-power-off"></i> Disconnect
+    </button>      
     </div>
   );
 };
