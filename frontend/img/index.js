@@ -46,7 +46,7 @@ import NFTVideo from "./nftvideo.png";
 import hero2 from "./hero2.png";
 import provider_1 from "./provider-1.png";
 import provider_2 from "./provider-2.png";
-
+import chooseImg from "./ChooseImg.png";
 
 export default {
   hero2,
@@ -96,5 +96,6 @@ export default {
   youtube,
   zgcmq,
   provider_1,
-  provider_2
+  provider_2,
+  chooseImg,
 };
