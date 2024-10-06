@@ -91,115 +91,46 @@ const AuthorProfileCard = () => {
 
   return (
     <div className={Style.AuthorProfileCard}>
-      <div className={Style.AuthorProfileCard_box}>
-        <div className={Style.AuthorProfileCard_box_img}>
-          <Image
-            src={
-              profileData.profileImage.startsWith('data:image')
-                ? profileData.profileImage // Base64 image
-                : `data:image/jpeg;base64,${profileData.profileImage}` // URL image or base64 without prefix
-            }
-            className={Style.AuthorProfileCard_box_img_img}
-            alt="NFT IMAGES"
-            width={220}
-            height={220}
-            onError={(e) => {
-              e.target.src = '/default-profile.png'; // Fallback image if there's an error
-            }}
-          />
-        </div>
-
-        <div className={Style.AuthorProfileCard_box_info}>
-          <h2>
-            {profileData.username}{" "}
-            <span>
-              <MdVerified />
-            </span>{" "}
-          </h2>
-
-          <div className={Style.AuthorProfileCard_box_info_address}>
-            <input
-              type="text"
-              value={obfuscateWalletAddress(profileData.wallet)}
-              id="myInput"
-              readOnly
+       <div className={Style.profileHead}>
+          <div className={Style.profile}>
+            <img
+              alt="Profile picture"
+              height="100"
+              src="https://storage.googleapis.com/a1aa/image/PXzvOJEPpwLxPh21WRJe7t2ysQUZg0ZdQYg8BOTCVULNzeiTA.jpg"
+              width="100"
             />
-            <FiCopy
-              onClick={copyAddress}
-              className={Style.AuthorProfileCard_box_info_address_icon}
-            />
-          </div>
-
-          <p>{profileData.description}</p>
-
-          <div className={Style.AuthorProfileCard_box_info_social}>
-            {profileData.socialLinks.facebook && (
-              <a href={profileData.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-                <TiSocialFacebook />
-              </a>
-            )}
-            {profileData.socialLinks.twitter && ( // Display Twitter link
-              <a href={profileData.socialLinks.twitter} target="_blank" rel="noopener noreferrer">
-                <TiSocialTwitter />
-              </a>
-            )}
-            {profileData.socialLinks.instagram && (
-              <a href={profileData.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                <TiSocialInstagram />
-              </a>
-            )}
-          </div>
-        </div>
-
-        <div className={Style.AuthorProfileCard_box_share}>
-          <Button btnName="Follow" handleClick={() => {}} />
-          <MdCloudUpload
-            onClick={openShare}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
-
-          {share && (
-            <div className={Style.AuthorProfileCard_box_share_upload}>
-              <p>
-                <span>
-                  <TiSocialFacebook />
-                </span>{" "}
-                {""}
-                Facebook
-              </p>
-              <p>
-                <span>
-                  <TiSocialInstagram />
-                </span>{" "}
-                {""}
-                Instagram
-              </p>
-              <p>
-                <span>
-                  <TiSocialTwitter />
-                </span>{" "}
-                {""}
-                Twitter
-              </p>
+            <div className={Style.profile_info}>
+              <h1>0xbea2e40be...1b43</h1>
+              <span className={Style.verified}>
+                <i className="fas fa-check-circle"></i>
+                Get verified
+              </span>
             </div>
-          )}
-
-          <BsThreeDots
-            onClick={openReport}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
-
-          {report && (
-            <p className={Style.AuthorProfileCard_box_share_report}>
+            <div className={Style.profile_actions}>
+              <button>Edit profile</button>
+              <button>Sell</button>
+              <button>
+                <i className="fas fa-ellipsis-h"></i>
+              </button>
+            </div>
+          </div>
+          <div className={Style.followers_following}>
+            <div className={Style.info}>
+              <span>Followers</span>
+              <span>0</span>
+            </div>
+            <div className={Style.info}>
+              <span>Following</span>
+              <span>0</span>
+            </div>
+            <div className={Style.address}>
+              <span>Address</span>
               <span>
-                <MdOutlineReportProblem />
-              </span>{" "}
-              {""}
-              Report abuse
-            </p>
-          )}
+                0xbea2e...1b43 <i className="fas fa-chevron-down"></i>
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
     </div>
   );
 };
