@@ -81,16 +81,19 @@
 .NFTCard_box_img {
   grid-column: 1 / -1;
   grid-row: 1 / end;
-  overflow: hidden;
-  border-radius: 1rem;
+  height: 300px; /* Set a fixed height for the image box */
+  overflow: hidden; /* Hide any overflow from the image */
+  border-radius: 1rem; /* Maintain rounded corners */
 }
 
 .NFTCard_box_img_img {
-  border-radius: 1rem;
-  transition: all 0.4s ease-in;
-  object-fit: contain;
-  width: 100%;
+  border-radius: 1rem; /* Ensure the image has rounded corners */
+  transition: all 0.4s ease-in; /* Smooth transition for any hover effects */
+  object-fit: cover; /* Use cover to fill the box without distortion */
+  width: 100%; /* Fill the width of the container */
+  height: 100%; /* Fill the height of the container */
 }
+
 
 .NFTCard_box_update_details {
   grid-column: 1 /-1;

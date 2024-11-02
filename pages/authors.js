@@ -1,3 +1,6 @@
+// Show all users in the discover author page
+
+
 import React, { useState, useEffect, useContext } from "react";
 
 //INTERNAL IMPORT
@@ -15,7 +18,7 @@ import {
 //IMPORT SMART CONTRACT DATA
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 
-const author = () => {
+const authors = () => {
   const followerArray = [
     {
       background: images.creatorbackground1,
@@ -80,30 +83,10 @@ const author = () => {
 
   return (
     <div className={Style.author}>
-      <Banner bannerImage={images.creatorbackground2} />
-      <AuthorProfileCard currentAccount={currentAccount} />
-      <AuthorTaps
-        setCollectiables={setCollectiables}
-        setCreated={setCreated}
-        setLike={setLike}
-        setFollower={setFollower}
-        setFollowing={setFollowing}
-        currentAccount={currentAccount}
-      />
-
-      <AuthorNFTCardBox
-        collectiables={collectiables}
-        created={created}
-        like={like}
-        follower={follower}
-        following={following}
-        nfts={nfts}
-        myNFTS={myNFTs}
-      />
-      <Title
+      
+      <Title 
         heading="Popular Creators"
-        paragraph="Click on music icon and enjoy NTF music or audio
-"
+       
       />
       <div className={Style.author_box}>
         {followerArray.map((el, i) => (
@@ -116,4 +99,4 @@ const author = () => {
   );
 };
 
-export default author;
+export default authors;

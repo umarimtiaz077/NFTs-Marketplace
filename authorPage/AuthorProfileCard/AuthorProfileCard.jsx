@@ -8,13 +8,12 @@ import {
 import { FiCopy } from "react-icons/fi";
 import {
   TiSocialFacebook,
-  TiSocialLinkedin,
-  TiSocialYoutube,
   TiSocialInstagram,
+  TiSocialTwitter, // Import Twitter icon
 } from "react-icons/ti";
 import { BsThreeDots } from "react-icons/bs";
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "./AuthorProfileCard.module.css";
 import images from "../../img";
 import { Button } from "../../components/componentsindex.js";
@@ -23,30 +22,20 @@ const AuthorProfileCard = ({ currentAccount }) => {
   const [share, setShare] = useState(false);
   const [report, setReport] = useState(false);
 
-  //copyAddress function
   const copyAddress = () => {
     const copyText = document.getElementById("myInput");
-
     copyText.select();
     navigator.clipboard.writeText(copyText.value);
   };
 
   const openShare = () => {
-    if (!share) {
-      setShare(true);
-      setReport(false);
-    } else {
-      setShare(false);
-    }
+    setShare((prev) => !prev);
+    setReport(false);
   };
 
   const openReport = () => {
-    if (!report) {
-      setReport(true);
-      setShare(false);
-    } else {
-      setReport(false);
-    }
+    setReport((prev) => !prev);
+    setShare(false);
   };
 
   return (
@@ -64,10 +53,10 @@ const AuthorProfileCard = ({ currentAccount }) => {
 
         <div className={Style.AuthorProfileCard_box_info}>
           <h2>
-            Dony Herrera{""}{" "}
+            Dony Herrera{" "}
             <span>
               <MdVerified />
-            </span>{" "}
+            </span>
           </h2>
 
           <div className={Style.AuthorProfileCard_box_info_address}>
@@ -91,68 +80,18 @@ const AuthorProfileCard = ({ currentAccount }) => {
               <TiSocialInstagram />
             </a>
             <a href="#">
-              <TiSocialLinkedin />
-            </a>
-            <a href="#">
-              <TiSocialYoutube />
+              <TiSocialTwitter /> {/* Add Twitter icon */}
             </a>
           </div>
         </div>
 
         <div className={Style.AuthorProfileCard_box_share}>
           <Button btnName="Follow" handleClick={() => {}} />
-          <MdCloudUpload
-            onClick={() => openShare()}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
+         
 
-          {share && (
-            <div className={Style.AuthorProfileCard_box_share_upload}>
-              <p>
-                <span>
-                  <TiSocialFacebook />
-                </span>{" "}
-                {""}
-                Facebook
-              </p>
-              <p>
-                <span>
-                  <TiSocialInstagram />
-                </span>{" "}
-                {""}
-                Instragram
-              </p>
-              <p>
-                <span>
-                  <TiSocialLinkedin />
-                </span>{" "}
-                {""}
-                LinkedIn
-              </p>
-              <p>
-                <span>
-                  <TiSocialYoutube />
-                </span>{" "}
-                {""}
-                YouTube
-              </p>
-            </div>
-          )}
+          
 
-          <BsThreeDots
-            onClick={() => openReport()}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
-
-          {report && (
-            <p className={Style.AuthorProfileCard_box_share_report}>
-              <span>
-                <MdOutlineReportProblem />
-              </span>{" "}
-              {""}
-              Report abouse
-            </p>
-          )}
+          
         </div>
       </div>
     </div>

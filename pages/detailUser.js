@@ -15,7 +15,7 @@ import {
 //IMPORT SMART CONTRACT DATA
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 
-const author = () => {
+const detailUser = () => {
   const followerArray = [
     {
       background: images.creatorbackground1,
@@ -116,4 +116,4 @@ const author = () => {
   );
 };
 
-export default author;
+export default detailUser;

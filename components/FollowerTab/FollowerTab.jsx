@@ -4,47 +4,16 @@ import {
   RiUserUnfollowFill,
   RiAwardLine,
 } from "react-icons/ri";
+import { useRouter } from "next/router"; // Import useRouter for navigation
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "./FollowerTab.module.css";
 import FollowerTabCard from "./FollowerTabCard/FollowerTabCard";
 import images from "../../img";
 
 const FollowerTab = ({ TopCreator }) => {
-  // const CardArray = [
-  //   {
-  //     background: images.creatorbackground1,
-  //     user: images.user1,
-  //   },
-  //   {
-  //     background: images.creatorbackground2,
-  //     user: images.user2,
-  //   },
-  //   {
-  //     background: images.creatorbackground3,
-  //     user: images.user3,
-  //   },
-  //   {
-  //     background: images.creatorbackground4,
-  //     user: images.user4,
-  //   },
-  //   {
-  //     background: images.creatorbackground5,
-  //     user: images.user5,
-  //   },
-  //   {
-  //     background: images.creatorbackground6,
-  //     user: images.user6,
-  //   },
-  //   {
-  //     background: images.creatorbackground7,
-  //     user: images.user7,
-  //   },
-  //   {
-  //     background: images.creatorbackground8,
-  //     user: images.user8,
-  //   },
-  // ];
+  const router = useRouter();
+
   const FollowingArray = [
     {
       background: images.creatorbackground3,
@@ -77,6 +46,7 @@ const FollowerTab = ({ TopCreator }) => {
       seller: "7200d8d8390d9993ujdc93900399djj277x",
     },
   ];
+  
   const NewsArray = [
     {
       background: images.creatorbackground1,
@@ -146,6 +116,11 @@ const FollowerTab = ({ TopCreator }) => {
     }
   };
 
+  // Redirect to the detailed NFT page when clicking on a user
+  const redirectToDetailPage = (seller) => {
+    router.push(`/author?seller=${seller}`); // Navigate to author.js with seller ID in query
+  };
+
   return (
     <div className={Style.followerTab}>
       <div className={Style.followerTab_title}>
@@ -168,7 +143,9 @@ const FollowerTab = ({ TopCreator }) => {
       {popular && (
         <div className={Style.followerTab_box}>
           {TopCreator.map((el, i) => (
-            <FollowerTabCard key={i + 1} i={i} el={el} />
+            <div key={i + 1} onClick={() => redirectToDetailPage(el.seller)}>
+              <FollowerTabCard i={i} el={el} />
+            </div>
           ))}
         </div>
       )}
@@ -176,7 +153,9 @@ const FollowerTab = ({ TopCreator }) => {
       {following && (
         <div className={Style.followerTab_box}>
           {FollowingArray.map((el, i) => (
-            <FollowerTabCard key={i + 1} i={i} el={el} />
+            <div key={i + 1} onClick={() => redirectToDetailPage(el.seller)}>
+              <FollowerTabCard i={i} el={el} />
+            </div>
           ))}
         </div>
       )}
@@ -184,15 +163,16 @@ const FollowerTab = ({ TopCreator }) => {
       {news && (
         <div className={Style.followerTab_box}>
           {NewsArray.map((el, i) => (
-            <FollowerTabCard key={i + 1} i={i} el={el} />
+            <div key={i + 1} onClick={() => redirectToDetailPage(el.seller)}>
+              <FollowerTabCard i={i} el={el} />
+            </div>
           ))}
         </div>
       )}
 
       <div className={Style.followerTab_member}>
         <div className={Style.followerTab_member_box}>
-          <a href="#">Show me more</a>
-          <a href="#">Become, author</a>
+          <a href="detailUser">Show me more</a>
         </div>
       </div>
     </div>
