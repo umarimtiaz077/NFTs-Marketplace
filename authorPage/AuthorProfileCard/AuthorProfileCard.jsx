@@ -9,7 +9,11 @@ import { FiCopy } from "react-icons/fi";
 import {
   TiSocialFacebook,
   TiSocialInstagram,
+<<<<<<< HEAD
   TiSocialTwitter,
+=======
+  TiSocialTwitter, // Import Twitter icon
+>>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
 } from "react-icons/ti";
 import { BsThreeDots } from "react-icons/bs";
 
@@ -22,30 +26,24 @@ const AuthorProfileCard = ({ currentAccount }) => {
   const [share, setShare] = useState(false);
   const [report, setReport] = useState(false);
 
+<<<<<<< HEAD
   // copyAddress function
+=======
+>>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
   const copyAddress = () => {
     const copyText = document.getElementById("myInput");
-
     copyText.select();
     navigator.clipboard.writeText(copyText.value);
   };
 
   const openShare = () => {
-    if (!share) {
-      setShare(true);
-      setReport(false);
-    } else {
-      setShare(false);
-    }
+    setShare((prev) => !prev);
+    setReport(false);
   };
 
   const openReport = () => {
-    if (!report) {
-      setReport(true);
-      setShare(false);
-    } else {
-      setReport(false);
-    }
+    setReport((prev) => !prev);
+    setShare(false);
   };
 
   return (
@@ -66,7 +64,7 @@ const AuthorProfileCard = ({ currentAccount }) => {
             Dony Herrera{" "}
             <span>
               <MdVerified />
-            </span>{" "}
+            </span>
           </h2>
 
           <div className={Style.AuthorProfileCard_box_info_address}>
@@ -90,13 +88,18 @@ const AuthorProfileCard = ({ currentAccount }) => {
               <TiSocialInstagram />
             </a>
             <a href="#">
+<<<<<<< HEAD
               <TiSocialTwitter />
+=======
+              <TiSocialTwitter /> {/* Add Twitter icon */}
+>>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
             </a>
           </div>
         </div>
 
         <div className={Style.AuthorProfileCard_box_share}>
           <Button btnName="Follow" handleClick={() => {}} />
+<<<<<<< HEAD
 
           {share && (
             <div className={Style.AuthorProfileCard_box_share_upload}>
@@ -134,6 +137,13 @@ const AuthorProfileCard = ({ currentAccount }) => {
               Report abuse
             </p>
           )}
+=======
+         
+
+          
+
+          
+>>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
         </div>
       </div>
     </div>

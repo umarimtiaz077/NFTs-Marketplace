@@ -16,27 +16,7 @@ const collection = () => {
     {
       image: "img/nft-image-1.png",
     },
-    {
-      image: "img/nft-image-2.png",
-    },
-    {
-      image: "img/nft-image-3.png",
-    },
-    {
-      image: "img/nft-image-1.png",
-    },
-    {
-      image: "img/nft-image-2.png",
-    },
-    {
-      image: "img/nft-image-3.png",
-    },
-    {
-      image: "img/nft-image-1.png",
-    },
-    {
-      image: "img/nft-image-2.png",
-    },
+   
   ];
   return (
     <div className={Style.collection}>
@@ -45,7 +25,7 @@ const collection = () => {
       <Filter />
       <NFTCardTwo NFTData={collectionArray} />
 
-      <Slider />
+     
       <Brand />
     </div>
   );

@@ -50,34 +50,46 @@ const Home = () => {
       <HeroSection />
       <Service />
       <BigNFTSilder />
-      <Title
+      {/* <Title
         heading="Audio Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
-      <AudioLive />
-      {creators.length === 0 ? (
+      <AudioLive /> */}
+      {creators.length == 0 ? (
         <Loader />
       ) : (
         <FollowerTab TopCreator={creators} />
       )}
 
-      <Slider />
+      {/* <Slider /> */}
       <Collection />
-      <Title
-        heading="Featured NFTs"
-        paragraph="Discover the most outstanding NFTs in all topics of life."
-      />
-      <Filter />
-      {nfts.length === 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
+      <div className={Style.followerTab_member}>
+        <div className={Style.followerTab_member_box}>
+          <a href="collectionsPage">Show me more</a>
+        </div>
+      </div>
 
-      <Title
+  <div className={Style.centeredContainer}>
+  <Title
+    heading="Featured NFTs"
+  />
+</div>
+
+      {nfts.length == 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
+      <div className={Style.followerTab_member}>
+        <div className={Style.followerTab_member_box}>
+          <a href="searchPage">Show me more</a>
+        </div>
+      </div>
+
+      {/* <Title
         heading="Browse by category"
         paragraph="Explore the NFTs in the most featured categories."
       />
-      <Category />
+      <Category /> */}
       <Subscribe />
-      <Brand />
-      <Video />
+      {/* <Brand /> */}
+      {/* <Video /> */}
     </div>
   );
 };

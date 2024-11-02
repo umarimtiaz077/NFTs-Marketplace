@@ -9,15 +9,15 @@ const Discover = () => {
   const discover = [
     {
       name: "Collection",
-      link: "collection",
+      link: "collectionsPage",
     },
     {
-      name: "Search",
+      name: "Marketplace",
       link: "searchPage",
     },
     {
-      name: "Author Profile",
-      link: "author",
+      name: "Authors",
+      link: "authors",
     },
     {
       name: "Account Setting",
@@ -30,6 +30,10 @@ const Discover = () => {
     {
       name: "Connect Wallet",
       link: "connectWallet",
+    },
+    {
+      name: "Create Collection",
+      link: "createCollection",
     },
   ];
   return (

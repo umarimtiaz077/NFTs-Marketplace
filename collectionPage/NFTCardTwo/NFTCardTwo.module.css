@@ -51,12 +51,15 @@
 .NFTCardTwo_box_img {
   grid-column: 1 / -1;
   grid-row: 1 / -1;
+  height: 350px; /* Increased height */
+  overflow: hidden; /* Hide overflow */
 }
 
 .NFTCardTwo_box_img_img {
   border-radius: 1rem;
   width: 100%;
-  height: auto;
+  height: 100%; /* Fill the container */
+  object-fit: cover; /* Cover the area without distortion */
 }
 
 .NFTCardTwo_box_info {
