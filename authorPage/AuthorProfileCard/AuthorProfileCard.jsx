@@ -8,13 +8,12 @@ import {
 import { FiCopy } from "react-icons/fi";
 import {
   TiSocialFacebook,
-  TiSocialLinkedin,
-  TiSocialYoutube,
   TiSocialInstagram,
+  TiSocialTwitter,
 } from "react-icons/ti";
 import { BsThreeDots } from "react-icons/bs";
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "./AuthorProfileCard.module.css";
 import images from "../../img";
 import { Button } from "../../components/componentsindex.js";
@@ -23,7 +22,7 @@ const AuthorProfileCard = ({ currentAccount }) => {
   const [share, setShare] = useState(false);
   const [report, setReport] = useState(false);
 
-  //copyAddress function
+  // copyAddress function
   const copyAddress = () => {
     const copyText = document.getElementById("myInput");
 
@@ -64,7 +63,7 @@ const AuthorProfileCard = ({ currentAccount }) => {
 
         <div className={Style.AuthorProfileCard_box_info}>
           <h2>
-            Dony Herrera{""}{" "}
+            Dony Herrera{" "}
             <span>
               <MdVerified />
             </span>{" "}
@@ -91,20 +90,13 @@ const AuthorProfileCard = ({ currentAccount }) => {
               <TiSocialInstagram />
             </a>
             <a href="#">
-              <TiSocialLinkedin />
-            </a>
-            <a href="#">
-              <TiSocialYoutube />
+              <TiSocialTwitter />
             </a>
           </div>
         </div>
 
         <div className={Style.AuthorProfileCard_box_share}>
           <Button btnName="Follow" handleClick={() => {}} />
-          <MdCloudUpload
-            onClick={() => openShare()}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
 
           {share && (
             <div className={Style.AuthorProfileCard_box_share_upload}>
@@ -112,29 +104,19 @@ const AuthorProfileCard = ({ currentAccount }) => {
                 <span>
                   <TiSocialFacebook />
                 </span>{" "}
-                {""}
                 Facebook
               </p>
               <p>
                 <span>
                   <TiSocialInstagram />
                 </span>{" "}
-                {""}
-                Instragram
+                Instagram
               </p>
               <p>
                 <span>
-                  <TiSocialLinkedin />
+                  <TiSocialTwitter />
                 </span>{" "}
-                {""}
-                LinkedIn
-              </p>
-              <p>
-                <span>
-                  <TiSocialYoutube />
-                </span>{" "}
-                {""}
-                YouTube
+                Twitter
               </p>
             </div>
           )}
@@ -149,8 +131,7 @@ const AuthorProfileCard = ({ currentAccount }) => {
               <span>
                 <MdOutlineReportProblem />
               </span>{" "}
-              {""}
-              Report abouse
+              Report abuse
             </p>
           )}
         </div>

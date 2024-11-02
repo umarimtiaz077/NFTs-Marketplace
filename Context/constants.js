@@ -109,6 +109,6 @@ const changeNetwork = async ({ networkName }) => {
 };
 
 export const handleNetworkSwitch = async () => {
-  const networkName = "localhost";
+  const networkName = "polygon_amoy";
   await changeNetwork({ networkName });
 };

@@ -99,6 +99,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
       setOpenError(true);
     }
   };
+  
 
   //---UPLOAD TO IPFS FUNCTION
   const uploadToPinata = async (file) => {
@@ -112,8 +113,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `fca64a85d8a3c08672aa`,
-          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+            pinata_api_key: `cf57cbd67629444823b5`,
+          pinata_secret_api_key: `940e086fe27f141466ecb5dc529fef2df8e1669bffef6a205e641beddf8440e0`,
             "Content-Type": "multipart/form-data",
           },
         });
@@ -143,8 +144,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
         url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
         data: data,
         headers: {
-          pinata_api_key: `fca64a85d8a3c08672aa`,
-          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+          pinata_api_key: `cf57cbd67629444823b5`,
+          pinata_secret_api_key: `940e086fe27f141466ecb5dc529fef2df8e1669bffef6a205e641beddf8440e0`,
           "Content-Type": "application/json",
         },
       });
