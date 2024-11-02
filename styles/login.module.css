@@ -11,7 +11,7 @@
 
 .login_box h1{
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 5rem;
 }
 
@@ -33,3 +33,12 @@
         width: 90%;
     }
 }
+
+.instagramIcon {
+    font-size: 50px; /* Adjust size as needed */
+    margin-right: 8px; /* Space between icon and text */
+    vertical-align: middle; /* Align with text */
+    color: #E1306C; /* Instagram brand color (optional) */
+  }
+  
+  

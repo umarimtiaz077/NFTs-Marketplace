@@ -1,14 +1,18 @@
 import React from "react";
+import { TiSocialInstagram } from "react-icons/ti"; // Importing Instagram icon
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "../styles/login.module.css";
 import LoginAndSignUp from "../loginAndSignUp/loginAndSignUp";
 
-const login = () => {
+const Login = () => {
   return (
     <div className={Style.login}>
       <div className={Style.login_box}>
-        <h1>Login</h1>
+        <h1>
+          <TiSocialInstagram className={Style.instagramIcon} /> {/* Add the icon here */}
+          Login with Instagram
+        </h1>
         <LoginAndSignUp />
         <p className={Style.login_box_para}>
           New user? <a href="#">Create an account</a>
@@ -18,4 +22,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;
