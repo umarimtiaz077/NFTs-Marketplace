@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { FaUserAlt, FaRegImage, FaUserEdit } from "react-icons/fa";
 import { MdHelpCenter } from "react-icons/md";
-import { TbDownloadOff, TbDownload } from "react-icons/tb";
+import { TbDownload } from "react-icons/tb";
+import { BiLogOut } from "react-icons/bi";
 import Link from "next/link";
 
-//INTERNAL IMPORT
+// INTERNAL IMPORT
 import Style from "./Profile.module.css";
 import images from "../../../img";
+import { NFTMarketplaceContext } from "../../../context/NFTMarketplaceContext"; // Import context
 
 const Profile = ({ currentAccount }) => {
+  const { disconnectWallet } = useContext(NFTMarketplaceContext); // Access disconnectWallet function
+
   return (
     <div className={Style.profile}>
       <div className={Style.profile_account}>
@@ -61,6 +65,11 @@ const Profile = ({ currentAccount }) => {
             <p>
               <Link href={{ pathname: "/aboutus" }}>About Us</Link>
             </p>
+          </div>
+          {/* Logout option */}
+          <div className={Style.profile_menu_one_item} onClick={disconnectWallet}>
+            <BiLogOut />
+            <p>Logout</p>
           </div>
         </div>
       </div>

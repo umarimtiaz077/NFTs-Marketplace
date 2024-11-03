@@ -1,24 +1,17 @@
 import nftMarketplace from "./NFTMarketplace.json";
 
-//NFT MARKETPLACE
-//--------POLYGON AMOY TESTNET
-// export const NFTMarketplaceAddress =
-//   "0x620C57A2C821b4680090393891cA49Bd715c4813";
-  export const NFTMarketplaceAddress =
-  "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-//--------LOCALHOST
-// export const NFTMarketplaceAddress =
-//   "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+// NFT Marketplace Contract Address (Update after deployment)
+export const NFTMarketplaceAddress = "0x59a667a6430CBcED19023a97c0A6faC758259Bfc"; // Replace with actual address
 export const NFTMarketplaceABI = nftMarketplace.abi;
 
-//NETWORK
+// Network Configurations
 const networks = {
-  polygon_amoy: {
+  amoy: {
     chainId: `0x${Number(80002).toString(16)}`,
-    chainName: "Polygon Amoy",
+    chainName: "Amoy",
     nativeCurrency: {
-      name: "MATIC",
-      symbol: "MATIC",
+      name: "POL",
+      symbol: "POL",
       decimals: 18,
     },
     rpcUrls: ["https://rpc-amoy.polygon.technology/"],
@@ -43,9 +36,7 @@ const networks = {
       symbol: "MATIC",
       decimals: 18,
     },
-    rpcUrls: ["https://rpc.ankr.com/polygon"],
-    blockExplorerUrls: ["https://polygonscan.com/"],
-  },
+    
   bsc: {
     chainId: `0x${Number(56).toString(16)}`,
     chainName: "Binance Smart Chain Mainnet",
@@ -90,6 +81,21 @@ const networks = {
     rpcUrls: ["http://127.0.0.1:8545/"],
     blockExplorerUrls: ["https://bscscan.com"],
   },
+    rpcUrls: ["https://rpc.ankr.com/polygon"],
+    blockExplorerUrls: ["https://polygonscan.com/"],
+  },
+  // Add other networks as needed
+  localhost: {
+    chainId: `0x${Number(31337).toString(16)}`,
+    chainName: "localhost",
+    nativeCurrency: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["http://127.0.0.1:8545/"],
+    blockExplorerUrls: ["https://bscscan.com"],
+  },
 };
 
 const changeNetwork = async ({ networkName }) => {
@@ -109,6 +115,6 @@ const changeNetwork = async ({ networkName }) => {
 };
 
 export const handleNetworkSwitch = async () => {
-  const networkName = "polygon_amoy";
+  const networkName = "amoy"; // Correct network key
   await changeNetwork({ networkName });
 };

@@ -49,18 +49,27 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
 
+  useEffect(() => {
+    checkIfWalletConnected(); // Only runs if user did not log out
+  }, []);
+  
   //---CHECK IF WALLET IS CONNECTD
 
   const checkIfWalletConnected = async () => {
+    const isLoggedOut = localStorage.getItem("isLoggedOut");
+    if (isLoggedOut === "true") {
+      console.log("Wallet was previously logged out");
+      return; // Skip connection check if user logged out
+    }
+  
     try {
-      if (!window.ethereum)
-        return setOpenError(true), setError("Install MetaMask");
+      if (!window.ethereum) return setOpenError(true), setError("Install MetaMask");
       const network = await handleNetworkSwitch();
-
+  
       const accounts = await window.ethereum.request({
         method: "eth_accounts",
       });
-
+  
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -69,30 +78,44 @@ export const NFTMarketplaceProvider = ({ children }) => {
         setAccountBalance(bal);
         return accounts[0];
       } else {
-        // setError("No Account Found");
-        // setOpenError(true);
         console.log("No account");
       }
     } catch (error) {
-      // setError("Something wrong while connecting to wallet");
-      // setOpenError(true);
-      console.log("not connected");
+      console.log("Not connected");
     }
   };
+  
 
-  //---CONNET WALLET FUNCTION
   const connectWallet = async () => {
+    console.log("connect wallet hit");
     try {
-      if (!window.ethereum)
-        return setOpenError(true), setError("Install MetaMask");
+      localStorage.removeItem("isLoggedOut"); // Clear logout status
+      if (!window.ethereum) {
+        setOpenError(true);
+        setError("Install MetaMask");
+        return;
+      }
+  
       const network = await handleNetworkSwitch();
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-
-      console.log(accounts);
       setCurrentAccount(accounts[0]);
-
+  
+      try {
+        const response = await axios.post("http://localhost:5000/api/users/register", {
+          walletAddress: accounts[0],
+        });
+  
+        if (response.status === 201) {
+          console.log("User registered:", response.data.user);
+        } else if (response.status === 200) {
+          console.log("User already exists:", response.data.user);
+        }
+      } catch (error) {
+        console.error("Error during registration or login:", error);
+      }
+  
       connectingWithSmartContract();
     } catch (error) {
       setError("Error while connecting to wallet");
@@ -100,36 +123,60 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
   
-
-  //---UPLOAD TO IPFS FUNCTION
-  const uploadToPinata = async (file) => {
-    if (file) {
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const response = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-            pinata_api_key: `cf57cbd67629444823b5`,
-          pinata_secret_api_key: `940e086fe27f141466ecb5dc529fef2df8e1669bffef6a205e641beddf8440e0`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-
-        return ImgHash;
-      } catch (error) {
-        setError("Unable to upload image to Pinata");
-        setOpenError(true);
-        console.log(error);
-      }
+  
+  // Define the disconnectWallet function
+  const disconnectWallet = () => {
+    try {
+      setCurrentAccount(""); // Clear the current account state
+      setAccountBalance(""); // Clear account balance or any other wallet-related states
+      localStorage.setItem("isLoggedOut", "true"); // Set logout status in localStorage
+      console.log("Wallet disconnected successfully");
+    } catch (error) {
+      setError("Error while disconnecting wallet");
+      setOpenError(true);
     }
+  };
+  
+
+//---UPLOAD TO IPFS FUNCTION
+const uploadToPinata = async (file, group = "nfts") => {
+  if (file) {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Set metadata for grouping (use group name provided)
+      const metadata = JSON.stringify({
+        name: group === "profiles" ? "Profile Image" : "NFT Image",
+        keyvalues: {
+          group: group // Adds "nfts" or "profiles" tag based on group param
+        },
+      });
+      formData.append("pinataMetadata", metadata);
+
+      const response = await axios({
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+          pinata_api_key: `cf57cbd67629444823b5`,
+          pinata_secret_api_key: `940e086fe27f141466ecb5dc529fef2df8e1669bffef6a205e641beddf8440e0`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+      return ImgHash;
+    } catch (error) {
+      setError("Unable to upload image to Pinata");
+      setOpenError(true);
+      console.log(error);
+    }
+  } else {
     setError("File Is Missing, Kindly provide your file");
     setOpenError(true);
-  };
+  }
+};
 
   //---CREATENFT FUNCTION
   const createNFT = async (name, price, image, description, router) => {
@@ -314,6 +361,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         uploadToPinata,
         checkIfWalletConnected,
         connectWallet,
+        disconnectWallet,
         createNFT,
         fetchNFTs,
         fetchMyNFTsOrListedNFTs,

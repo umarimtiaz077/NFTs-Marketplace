@@ -11,8 +11,7 @@ import Style from "./NavBar.module.css";
 import { Discover, HelpCenter, Notification, Profile, SideBar } from "./index";
 import { Button, Error } from "../componentsindex";
 import images from "../../img";
-import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext";
-
+import { NFTMarketplaceContext } from "../../context/NFTMarketplaceContext";
 const NavBar = () => {
   const [discover, setDiscover] = useState(false);
   const [help, setHelp] = useState(false);
@@ -24,6 +23,11 @@ const NavBar = () => {
   const router = useRouter();
   const { currentAccount, connectWallet, openError } = useContext(NFTMarketplaceContext);
 
+  useEffect(() => {
+    console.log("NavBar - currentAccount:", currentAccount);
+  }, [currentAccount]);
+
+  
   const handleClickOutside = (event) => {
     // Check if the click is outside the navbar and its menus
     if (navbarRef.current && !navbarRef.current.contains(event.target)) {

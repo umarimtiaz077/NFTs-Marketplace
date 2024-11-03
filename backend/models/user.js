@@ -1,18 +1,19 @@
-// models/user.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  email: { type: String, required: true },
-  description: String,
-  website: String,
+  walletAddress: { type: String, required: true, unique: true },
+  username: { type: String, default: "" },
+  email: { type: String, default: "" },
+  description: { type: String, default: "" },
+  website: { type: String, default: "" },
   socialLinks: {
-    facebook: String,
-    twitter: String,
-    instagram: String,
+    facebook: { type: String, default: "" },
+    twitter: { type: String, default: "" },
+    instagram: { type: String, default: "" },
   },
-  walletAddress: { type: String, required: true },
-  profileImage: String, // URL or base64 image data
-}, { timestamps: true });
+  profileImage: { type: String, default: "" },
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], 
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], 
+}, { timestamps: true, collection: 'users' }); 
 
 module.exports = mongoose.model('User', userSchema);

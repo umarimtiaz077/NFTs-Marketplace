@@ -9,7 +9,7 @@ import formStyle from "../AccountPage/Form/Form.module.css";
 import { Button } from "../components/componentsindex";
 
 //IMPORT SMART CONTRACT
-import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
+import { NFTMarketplaceContext } from "../context/NFTMarketplaceContext";
 
 const reSellToken = () => {
   const { createSale } = useContext(NFTMarketplaceContext);

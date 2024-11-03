@@ -9,11 +9,7 @@ import { FiCopy } from "react-icons/fi";
 import {
   TiSocialFacebook,
   TiSocialInstagram,
-<<<<<<< HEAD
-  TiSocialTwitter,
-=======
   TiSocialTwitter, // Import Twitter icon
->>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
 } from "react-icons/ti";
 import { BsThreeDots } from "react-icons/bs";
 
@@ -26,10 +22,6 @@ const AuthorProfileCard = ({ currentAccount }) => {
   const [share, setShare] = useState(false);
   const [report, setReport] = useState(false);
 
-<<<<<<< HEAD
-  // copyAddress function
-=======
->>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
   const copyAddress = () => {
     const copyText = document.getElementById("myInput");
     copyText.select();
@@ -88,62 +80,18 @@ const AuthorProfileCard = ({ currentAccount }) => {
               <TiSocialInstagram />
             </a>
             <a href="#">
-<<<<<<< HEAD
-              <TiSocialTwitter />
-=======
               <TiSocialTwitter /> {/* Add Twitter icon */}
->>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
             </a>
           </div>
         </div>
 
         <div className={Style.AuthorProfileCard_box_share}>
           <Button btnName="Follow" handleClick={() => {}} />
-<<<<<<< HEAD
-
-          {share && (
-            <div className={Style.AuthorProfileCard_box_share_upload}>
-              <p>
-                <span>
-                  <TiSocialFacebook />
-                </span>{" "}
-                Facebook
-              </p>
-              <p>
-                <span>
-                  <TiSocialInstagram />
-                </span>{" "}
-                Instagram
-              </p>
-              <p>
-                <span>
-                  <TiSocialTwitter />
-                </span>{" "}
-                Twitter
-              </p>
-            </div>
-          )}
-
-          <BsThreeDots
-            onClick={() => openReport()}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
-
-          {report && (
-            <p className={Style.AuthorProfileCard_box_share_report}>
-              <span>
-                <MdOutlineReportProblem />
-              </span>{" "}
-              Report abuse
-            </p>
-          )}
-=======
          
 
           
 
           
->>>>>>> 608a6da35bc0fc3ad3dcaba32a4a3ebda60f1caf
         </div>
       </div>
     </div>

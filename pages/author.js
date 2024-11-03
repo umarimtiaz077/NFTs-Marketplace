@@ -13,7 +13,7 @@ import {
 } from "../authorPage/componentIndex";
 
 //IMPORT SMART CONTRACT DATA
-import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
+import { NFTMarketplaceContext } from "../context/NFTMarketplaceContext";
 
 const author = () => {
   const followerArray = [

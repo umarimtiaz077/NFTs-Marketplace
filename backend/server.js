@@ -12,9 +12,12 @@ app.use(cors({
   credentials: true,
 }));
 
+
 // Increase the payload size limit for JSON and URL-encoded data
 app.use(express.json({ limit: '50mb' })); // Adjust the size as needed
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // Adjust the size as needed
+
+console.log("chk ,....",process.env.MONGO_URI);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -25,10 +28,14 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-const userRoutes = require('./routes/users');
+const userRoutes = require('./routes/userRoutes');
 const nftRoutes = require('./routes/nfts');
+const uploadRoutes = require('./routes/userRoutes');
+
 app.use('/api/users', userRoutes);
 app.use('/api/nfts', nftRoutes);
+app.use('/api/upload', uploadRoutes);
+  
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

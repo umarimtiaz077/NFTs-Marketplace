@@ -22,7 +22,7 @@ import {
 import { getTopCreators } from "../TopCreators/TopCreators";
 
 // IMPORTING CONTRACT DATA
-import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
+import { NFTMarketplaceContext } from "../context/NFTMarketplaceContext";
 
 const Home = () => {
   const { checkIfWalletConnected, currentAccount, fetchNFTs } = useContext(NFTMarketplaceContext);
