@@ -46,6 +46,17 @@ const Form = () => {
             ></textarea>
           </div>
 
+          <div className={Style.Form_box_input}>
+            <label htmlFor="website">Website</label>
+            <div className={Style.Form_box_input_box}>
+              <div className={Style.Form_box_input_box_icon}>
+                <MdOutlineHttp />
+              </div>
+
+              <input type="text" placeholder="website" />
+            </div>
+          </div>
+         
         </form>
       </div>
     </div>
