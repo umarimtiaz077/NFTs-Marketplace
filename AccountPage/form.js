@@ -35,7 +35,17 @@ const Form = () => {
             </div>
           </div>
 
-         
+          <div className={Style.Form_box_input}>
+            <label htmlFor="description">Description</label>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="6"
+              placeholder="something about yourself in few words"
+            ></textarea>
+          </div>
+
         </form>
       </div>
     </div>
