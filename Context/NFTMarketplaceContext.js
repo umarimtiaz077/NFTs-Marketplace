@@ -46,12 +46,20 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [openError, setOpenError] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
+  const [userId, setUserId] = useState(""); // New state for userId
+
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
 
   //---CHECK IF WALLET IS CONNECTD
 
   const checkIfWalletConnected = async () => {
+    const isLoggedOut = localStorage.getItem("isLoggedOut");
+    if (isLoggedOut === "true") {
+      console.log("Wallet was previously logged out");
+      return; // Skip connection check if user logged out
+    }
+  
     try {
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
@@ -83,19 +91,36 @@ export const NFTMarketplaceProvider = ({ children }) => {
   //---CONNET WALLET FUNCTION
   const connectWallet = async () => {
     try {
-      if (!window.ethereum)
-        return setOpenError(true), setError("Install MetaMask");
-      const network = await handleNetworkSwitch();
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
-      console.log(accounts);
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       setCurrentAccount(accounts[0]);
-
-      connectingWithSmartContract();
+      await registerOrFetchUser(accounts[0]); // Fetch userId after connection
     } catch (error) {
-      setError("Error while connecting to wallet");
+      console.error("Error connecting wallet:", error);
+    }
+  };
+
+  const registerOrFetchUser = async (walletAddress) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/register", {
+        walletAddress,
+      });
+      if (response.data.user) {
+        console.log("asdad",response)
+        setUserId(response.data.user._id); // Save userId globally
+      }
+    } catch (error) {
+      console.error("Error registering or fetching user:", error);
+    }
+  };
+
+  const disconnectWallet = () => {
+    try {
+      setCurrentAccount(""); // Clear the current account state
+      setAccountBalance(""); // Clear account balance or any other wallet-related states
+      localStorage.setItem("isLoggedOut", "true"); // Set logout status in localStorage
+      console.log("Wallet disconnected successfully");
+    } catch (error) {
+      setError("Error while disconnecting wallet");
       setOpenError(true);
     }
   };
@@ -324,6 +349,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
         openError,
         error,
         accountBalance,
+        disconnectWallet,
+        userId,
       }}
     >
       {children}

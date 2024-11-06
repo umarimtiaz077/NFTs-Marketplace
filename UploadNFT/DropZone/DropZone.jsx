@@ -23,13 +23,22 @@ const DropZone = ({
 }) => {
   const [fileUrl, setFileUrl] = useState(null);
 
-  const onDrop = useCallback(async (acceptedFile) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     // const url = await uploadToIPFS(acceptedFile[0]);
-    const url = await uploadToPinata(acceptedFile[0]);
-    setFileUrl(url);
-    setImage(url);
-    console.log(url);
-  });
+    // const url = await uploadToPinata(acceptedFile[0]);
+    // setFileUrl(url);
+    // setImage(url);
+    // console.log(url);
+
+    const file = acceptedFiles[0];
+
+    if (file) {
+      const filePreviewUrl = URL.createObjectURL(file);
+      setFileUrl(filePreviewUrl); // Set a preview URL for display
+      setImage(file); // Set the actual file to be sent in FormData
+    }
+
+  }, [setImage]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

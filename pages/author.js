@@ -11,6 +11,7 @@ import {
   AuthorTaps,
   AuthorNFTCardBox,
 } from "../authorPage/componentIndex";
+import axios from "axios";
 
 //IMPORT SMART CONTRACT DATA
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
@@ -62,6 +63,8 @@ const author = () => {
 
   const [nfts, setNfts] = useState([]);
   const [myNFTs, setMyNFTs] = useState([]);
+  const [profileData, setProfileData] = useState(null); // State to hold profile data
+
 
   useEffect(() => {
     fetchMyNFTsOrListedNFTs("fetchItemsListed").then((items) => {
@@ -78,10 +81,33 @@ const author = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        console.log("fetch profile request check")
+        const response = await axios.get(`http://localhost:5000/api/users/${currentAccount}`);
+        console.log("responce is..", response.data.user)
+        setProfileData(response.data.user);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    if (currentAccount) fetchProfileData();
+  }, [currentAccount]);
+
   return (
     <div className={Style.author}>
       <Banner bannerImage={images.creatorbackground2} />
-      <AuthorProfileCard currentAccount={currentAccount} />
+      {profileData && (
+        <AuthorProfileCard
+          currentAccount={currentAccount}
+          profileImage={profileData.profileImage} 
+          username={profileData.username}         
+          description={profileData.description}
+          socialLinks={profileData.socialLinks}
+        />
+      )}
       <AuthorTaps
         setCollectiables={setCollectiables}
         setCreated={setCreated}

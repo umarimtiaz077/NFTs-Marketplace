@@ -1,14 +1,15 @@
-export const getTopCreators = (creators) => {
+export const getTopCreators = (creators = []) => {  // Set default empty array
   const finalCreators = [];
 
+  // Reduce to group by seller and calculate total prices
   const finalResults = creators.reduce((index, currentValue) => {
     (index[currentValue.seller] = index[currentValue.seller] || []).push(
       currentValue
     );
-
     return index;
   }, {});
 
+  // Calculate the total for each seller
   Object.entries(finalResults).forEach((item) => {
     const seller = item[0];
     const total = item[1]
