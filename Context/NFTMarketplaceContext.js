@@ -130,4 +130,35 @@ export const NFTMarketplaceProvider = ({ children }) => {
     setOpenError(true);
   };
 
+  //---CREATENFT FUNCTION
+  const createNFT = async (name, price, image, description, router) => {
+    if (!name || !description || !price || !image)
+      return setError("Data Is Missing"), setOpenError(true);
+
+    const data = JSON.stringify({ name, description, image });
+
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        data: data,
+        headers: {
+          pinata_api_key: `fca64a85d8a3c08672aa`,
+          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const url = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+      console.log(url);
+
+      await createSale(url, price);
+      router.push("/searchPage");
+    } catch (error) {
+      setError("Error while creating NFT");
+      setOpenError(true);
+    }
+  };
+
+  
 };
