@@ -46,4 +46,26 @@ const networks = {
     rpcUrls: ["https://rpc.ankr.com/polygon"],
     blockExplorerUrls: ["https://polygonscan.com/"],
   },
+  bsc: {
+    chainId: `0x${Number(56).toString(16)}`,
+    chainName: "Binance Smart Chain Mainnet",
+    nativeCurrency: {
+      name: "Binance Chain Native Token",
+      symbol: "BNB",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rpc.ankr.com/bsc"],
+    blockExplorerUrls: ["https://bscscan.com"],
+  },
+  base_mainnet: {
+    chainId: `0x${Number(8453).toString(16)}`,
+    chainName: "Base Mainnet",
+    nativeCurrency: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://mainnet.base.org/"],
+    blockExplorerUrls: ["https://bscscan.com"],
+  },
 }
