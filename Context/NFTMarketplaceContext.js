@@ -100,6 +100,34 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
- 
-  );
+  //---UPLOAD TO IPFS FUNCTION
+  const uploadToPinata = async (file) => {
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          data: formData,
+          headers: {
+            pinata_api_key: `fca64a85d8a3c08672aa`,
+          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+
+        return ImgHash;
+      } catch (error) {
+        setError("Unable to upload image to Pinata");
+        setOpenError(true);
+        console.log(error);
+      }
+    }
+    setError("File Is Missing, Kindly provide your file");
+    setOpenError(true);
+  };
+
 };
