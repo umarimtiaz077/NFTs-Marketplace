@@ -78,7 +78,33 @@ const author = () => {
     });
   }, []);
 
- 
+  return (
+    <div className={Style.author}>
+      <Banner bannerImage={images.creatorbackground2} />
+      <AuthorProfileCard currentAccount={currentAccount} />
+      <AuthorTaps
+        setCollectiables={setCollectiables}
+        setCreated={setCreated}
+        setLike={setLike}
+        setFollower={setFollower}
+        setFollowing={setFollowing}
+        currentAccount={currentAccount}
+      />
+
+      <AuthorNFTCardBox
+        collectiables={collectiables}
+        created={created}
+        like={like}
+        follower={follower}
+        following={following}
+        nfts={nfts}
+        myNFTS={myNFTs}
+      />
+     
+
+      <Brand />
+    </div>
+  );
 };
 
 export default author;
