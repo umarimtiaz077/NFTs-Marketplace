@@ -92,3 +92,23 @@ const networks = {
   },
 };
 
+const changeNetwork = async ({ networkName }) => {
+  try {
+    if (!window.ethereum) throw new Error("No crypto wallet found");
+    await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          ...networks[networkName],
+        },
+      ],
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+export const handleNetworkSwitch = async () => {
+  const networkName = "polygon_amoy";
+  await changeNetwork({ networkName });
+};
