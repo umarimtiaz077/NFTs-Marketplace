@@ -240,5 +240,51 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
+  //--FETCHING MY NFT OR LISTED NFTs
+  const fetchMyNFTsOrListedNFTs = async (type) => {
+    try {
+      const address = await checkIfWalletConnected();
+      if (address) {
+        const contract = await connectingWithSmartContract();
 
+        const data =
+          type == "fetchItemsListed"
+            ? await contract.fetchItemsListed()
+            : await contract.fetchMyNFTs();
+
+        const items = await Promise.all(
+          data.map(
+            async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+              const tokenURI = await contract.tokenURI(tokenId);
+              const {
+                data: { image, name, description },
+              } = await axios.get(tokenURI);
+              const price = ethers.utils.formatUnits(
+                unformattedPrice.toString(),
+                "ether"
+              );
+
+              return {
+                price,
+                tokenId: tokenId.toNumber(),
+                seller,
+                owner,
+                image,
+                name,
+                description,
+                tokenURI,
+              };
+            }
+          )
+        );
+        return items;
+      }
+    } catch (error) {
+      setError("Error while fetching listed NFTs");
+      setOpenError(true);
+      console.log(error);
+    }
+  };
+
+  
 };
