@@ -36,7 +36,26 @@ const connectWallet = () => {
           Connect with one of our avaliabl wallet providers or create a new one
         </p>
 
-        
+        <div className={Style.connectWallet_box_provider}>
+          {providerArray.map((el, i) => (
+            <div
+              className={`${Style.connectWallet_box_provider_item} ${
+                activeBtn == i + 1 ? Style.active : ""
+              }`}
+              key={i + 1}
+              onClick={() => (setActiveBtn(i + 1), connectWallet())}
+            >
+              <Image
+                src={el.provider}
+                alt={el.provider}
+                width={50}
+                height={50}
+                className={Style.connectWallet_box_provider_item_img}
+              />
+              <p>{el.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
