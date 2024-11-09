@@ -87,7 +87,24 @@ const aboutus = () => {
           </div>
         </div>
 
-        
+        <div className={Style.aboutus_box_title}>
+          <h2>🚀 Fast Facts</h2>
+          <p>
+            We’re impartial and independent, and every day we create
+            distinctive, world-class programmes and content
+          </p>
+        </div>
+
+        <div className={Style.aboutus_box_facts}>
+          <div className={Style.aboutus_box_facts_box}>
+            {factsArray.map((el, i) => (
+              <div className={Style.aboutus_box_facts_box_info}>
+                <h3>{el.title}</h3>
+                <p>{el.info}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <Brand />
     </div>
