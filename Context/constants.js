@@ -68,4 +68,27 @@ const networks = {
     rpcUrls: ["https://mainnet.base.org/"],
     blockExplorerUrls: ["https://bscscan.com"],
   },
-}
+  base_sepolia: {
+    chainId: `0x${Number(84532).toString(16)}`,
+    chainName: "Base Sepolia",
+    nativeCurrency: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://sepolia.base.org"],
+    blockExplorerUrls: ["https://bscscan.com"],
+  },
+  localhost: {
+    chainId: `0x${Number(31337).toString(16)}`,
+    chainName: "localhost",
+    nativeCurrency: {
+      name: "GO",
+      symbol: "GO",
+      decimals: 18,
+    },
+    rpcUrls: ["http://127.0.0.1:8545/"],
+    blockExplorerUrls: ["https://bscscan.com"],
+  },
+};
+
