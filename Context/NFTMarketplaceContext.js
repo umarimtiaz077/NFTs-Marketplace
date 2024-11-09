@@ -160,5 +160,31 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
+  //--- createSale FUNCTION
+  const createSale = async (url, formInputPrice, isReselling, id) => {
+    try {
+      const price = ethers.utils.parseUnits(formInputPrice, "ether");
+
+      const contract = await connectingWithSmartContract();
+
+      const listingPrice = await contract.getListingPrice();
+
+      const transaction = !isReselling
+        ? await contract.createToken(url, price, {
+            value: listingPrice.toString(),
+          })
+        : await contract.resellToken(id, price, {
+            value: listingPrice.toString(),
+          });
+
+      await transaction.wait();
+      console.log(transaction);
+    } catch (error) {
+      setError("error while creating sale");
+      setOpenError(true);
+      console.log(error);
+    }
+  };
+
   
 };
