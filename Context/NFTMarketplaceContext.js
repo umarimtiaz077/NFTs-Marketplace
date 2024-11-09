@@ -286,5 +286,47 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
-  
+  //---BUY NFTs FUNCTION
+  const buyNFT = async (nft) => {
+    try {
+      const address = await checkIfWalletConnected();
+      if (address) {
+        const contract = await connectingWithSmartContract();
+        const price = ethers.utils.parseUnits(nft.price.toString(), "ether");
+
+        const transaction = await contract.createMarketSale(nft.tokenId, {
+          value: price,
+        });
+
+        await transaction.wait();
+        router.push("/author");
+      }
+    } catch (error) {
+      setError("Error While buying NFT");
+      setOpenError(true);
+    }
+  };
+
+  return (
+    <NFTMarketplaceContext.Provider
+      value={{
+        uploadToPinata,
+        checkIfWalletConnected,
+        connectWallet,
+        createNFT,
+        fetchNFTs,
+        fetchMyNFTsOrListedNFTs,
+        buyNFT,
+        createSale,
+        currentAccount,
+        titleData,
+        setOpenError,
+        openError,
+        error,
+        accountBalance,
+      }}
+    >
+      {children}
+    </NFTMarketplaceContext.Provider>
+  );
 };
