@@ -24,4 +24,15 @@ const networks = {
     rpcUrls: ["https://rpc-amoy.polygon.technology/"],
     blockExplorerUrls: ["https://www.oklink.com/amoy"],
   },
+  polygon_mumbai: {
+    chainId: `0x${Number(80001).toString(16)}`,
+    chainName: "Polygon Mumbai",
+    nativeCurrency: {
+      name: "MATIC",
+      symbol: "MATIC",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rpc.ankr.com/polygon_mumbai"],
+    blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+  },
 }
