@@ -23,7 +23,10 @@ const collection = () => {
       <Banner bannerImage={images.creatorbackground1} />
       <CollectionProfile />
       <Filter />
-  
+      <NFTCardTwo NFTData={collectionArray} />
+
+     
+      <Brand />
     </div>
   );
 };
