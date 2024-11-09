@@ -80,5 +80,26 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
+  //---CONNET WALLET FUNCTION
+  const connectWallet = async () => {
+    try {
+      if (!window.ethereum)
+        return setOpenError(true), setError("Install MetaMask");
+      const network = await handleNetworkSwitch();
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      console.log(accounts);
+      setCurrentAccount(accounts[0]);
+
+      connectingWithSmartContract();
+    } catch (error) {
+      setError("Error while connecting to wallet");
+      setOpenError(true);
+    }
+  };
+
  
+  );
 };
