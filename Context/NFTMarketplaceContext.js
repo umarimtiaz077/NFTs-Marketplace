@@ -186,5 +186,59 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
-  
+  //--FETCHNFTS FUNCTION
+
+  const fetchNFTs = async () => {
+    try {
+      const address = await checkIfWalletConnected();
+      if (address) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+
+        const contract = fetchContract(provider);
+
+        const data = await contract.fetchMarketItems();
+
+        console.log(data);
+
+        const items = await Promise.all(
+          data.map(
+            async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+              const tokenURI = await contract.tokenURI(tokenId);
+
+              const {
+                data: { image, name, description },
+              } = await axios.get(tokenURI, {});
+              const price = ethers.utils.formatUnits(
+                unformattedPrice.toString(),
+                "ether"
+              );
+
+              return {
+                price,
+                tokenId: tokenId.toNumber(),
+                seller,
+                owner,
+                image,
+                name,
+                description,
+                tokenURI,
+              };
+            }
+          )
+        );
+        console.log("NFT", items);
+        return items;
+      }
+
+      // }
+    } catch (error) {
+      setError("Error while fetching NFTS");
+      setOpenError(true);
+      console.log(error);
+    }
+  };
+
+
 };
