@@ -3,25 +3,13 @@
 
 .upload_box_row {
     display: flex;
-    gap: 20px;
-    width: 100%;
-}
-
-.upload_box_row > .Form_box_input {
-    flex: 1;
-}
-
-.Form_box_input {
-    width: 100%;
-}
-
-.Form_box_input_userName,
-.Form_box_input_box input,
-.Form_box_input textarea {
-    width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn't affect total width */
-}
-
+    gap: 20px; /* Space between columns */
+  }
+  
+  .upload_box_row > .Form_box_input {
+    flex: 1; /* Each input will take half the available width */
+  }
+  
 
   /* Media Query for Responsive Design */
   @media (max-width: 768px) {
