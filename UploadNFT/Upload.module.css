@@ -1,5 +1,36 @@
 
 
+
+.upload_box_row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.upload_box_row > .Form_box_input {
+    flex: 1;
+}
+
+.Form_box_input {
+    width: 100%;
+}
+
+.Form_box_input_userName,
+.Form_box_input_box input,
+.Form_box_input textarea {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect total width */
+}
+
+
+  /* Media Query for Responsive Design */
+  @media (max-width: 768px) {
+    .upload_box_row {
+      flex-direction: column;
+      gap: 10px; /* Adjust spacing for smaller screens */
+    }
+  }
+  
 .upload_box_input_para{
    padding: 0 1rem;
 }

@@ -1,15 +1,17 @@
 // Form.js (Child Component)
-import React, { useState } from "react";
+import React, { useState,useContext,useEffect } from "react";
 import axios from "axios";
 import { HiOutlineMail } from "react-icons/hi";
 import { MdOutlineHttp, MdOutlineContentCopy } from "react-icons/md";
 import { TiSocialFacebook, TiSocialTwitter, TiSocialInstagram } from "react-icons/ti";
-
+import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext.js";
 // INTERNAL IMPORT
 import Style from "./Form.module.css";
 import { Button } from "../../components/componentsindex.js";
 
 const Form = ({ fileUrl }) => {
+  const { currentAccount,userId } = useContext(NFTMarketplaceContext);
+
   // State for form inputs
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +20,41 @@ const Form = ({ fileUrl }) => {
   const [facebook, setFacebook] = useState("");
   const [twitter, setTwitter] = useState("");
   const [instagram, setInstagram] = useState("");
-  const [walletAddress, setWalletAddress] = useState("");
+  const [walletAddress, setWalletAddress] = useState(currentAccount || "");
+
+  useEffect(() => {
+    console.log("useeffect runs");
+    console.log("userId is...",userId)
+    if (userId) {
+      // Fetch profile data on load if userId exists
+      const fetchProfile = async () => {
+        try {
+          console.log("user id is ...",userId)
+          const response = await axios.get(`http://localhost:5000/api/users/profile/${userId}`);
+          const profileData = response.data;
+          // Populate form fields with fetched data
+          setUsername(profileData.username || "");
+          setEmail(profileData.email || "");
+          setDescription(profileData.description || "");
+          setWebsite(profileData.website || "");
+          setFacebook(profileData.socialLinks?.facebook || "");
+          setTwitter(profileData.socialLinks?.twitter || "");
+          setInstagram(profileData.socialLinks?.instagram || "");
+          setWalletAddress(profileData.walletAddress || currentAccount || "");
+        } catch (error) {
+          console.error("Error fetching profile data:", error);
+        }
+      };
+
+      fetchProfile();
+    }
+  }, [userId, currentAccount]);
+
+  useEffect(() => {
+    if (currentAccount) {
+      setWalletAddress(currentAccount);
+    }
+  }, [currentAccount]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

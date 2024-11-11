@@ -54,11 +54,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   //---CHECK IF WALLET IS CONNECTD
 
   const checkIfWalletConnected = async () => {
-    const isLoggedOut = localStorage.getItem("isLoggedOut");
-    if (isLoggedOut === "true") {
-      console.log("Wallet was previously logged out");
-      return; // Skip connection check if user logged out
-    }
+    
   
     try {
       if (!window.ethereum)
@@ -332,9 +328,87 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
+  const fetchAllProfiles = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/users");
+  
+      // Logging each user's data as it is processed
+      return response.data.map((user) => {
+        console.log("Fetched User Data:", {
+          username: user.username || "Unnamed User",
+          profileImage: user.profileImage || "/default-background.jpg",
+          sellerId: user._id || user.walletAddress || "unknown",
+        });
+  
+        return {
+          background: user.profileImage || "/default-background.jpg", // Set background with a default fallback
+          user: user.username || "Unnamed User", // Set a username with a default fallback
+          seller: user._id || user.walletAddress || "unknown", // Ensure seller is set to _id or walletAddress
+        };
+      });
+    } catch (error) {
+      console.error("Error fetching profiles:", error);
+      return [];
+    }
+  };
+  
+
+  const isFollowingUser = async (targetUserId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/users/${userId}/followers`);
+      // Check if the target user ID is in the followers array
+      return response.data.some((follower) => follower._id === targetUserId);
+    } catch (error) {
+      console.error("Error checking if following user:", error);
+      return false;
+    }
+  };
+
+// In NFTMarketplaceContext.js
+const followUser = async (followId) => {
+  try {
+    const response = await axios.post("http://localhost:5000/api/users/follow", {
+      userId,
+      followId,
+    });
+    return response.data; // Ensure returning data
+  } catch (error) {
+    console.error("Error following user:", error);
+    return { success: false, message: error.message };
+  }
+};
+
+const unfollowUser = async (unfollowId) => {
+  try {
+    const response = await axios.post("http://localhost:5000/api/users/unfollow", {
+      userId,
+      unfollowId,
+    });
+    return response.data; // Ensure returning data
+  } catch (error) {
+    console.error("Error unfollowing user:", error);
+    return { success: false, message: error.message };
+  }
+};
+
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (currentAccount) {
+        registerOrFetchUser(currentAccount);
+      }
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router, currentAccount]);
+
   return (
     <NFTMarketplaceContext.Provider
       value={{
+        fetchAllProfiles,
         uploadToPinata,
         checkIfWalletConnected,
         connectWallet,
@@ -351,6 +425,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
         accountBalance,
         disconnectWallet,
         userId,
+        followUser,
+        unfollowUser,
+        isFollowingUser
       }}
     >
       {children}

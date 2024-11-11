@@ -8,6 +8,7 @@ import { BsThreeDots } from "react-icons/bs";
 // INTERNAL IMPORT
 import Style from "./AuthorProfileCard.module.css";
 import { Button } from "../../components/componentsindex.js";
+import images from "../../img"; // Import local images if needed
 
 const AuthorProfileCard = ({ currentAccount, profileImage, username, description, socialLinks }) => {
   const [share, setShare] = useState(false);
@@ -28,13 +29,17 @@ const AuthorProfileCard = ({ currentAccount, profileImage, username, description
     setReport((prev) => !prev);
     setShare(false);
   };
+  const handlecheck=()=>
+  {
+    console.log("this check method hit")
+  };
 
   return (
     <div className={Style.AuthorProfileCard}>
       <div className={Style.AuthorProfileCard_box}>
         <div className={Style.AuthorProfileCard_box_img}>
           <Image
-            src={profileImage || "/default-profile.png"} // Use default if no image provided
+            src={profileImage || images.defaultProfile || "/default-profile.png"} // Fallback to a local image or default path
             className={Style.AuthorProfileCard_box_img_img}
             alt="Profile Image"
             width={220}
@@ -80,7 +85,7 @@ const AuthorProfileCard = ({ currentAccount, profileImage, username, description
         </div>
 
         <div className={Style.AuthorProfileCard_box_share}>
-          <Button btnName="Follow" handleClick={() => {}} />
+          <Button btnName="Follow" handleClick={() => {handlecheck()}} />
         </div>
       </div>
     </div>
