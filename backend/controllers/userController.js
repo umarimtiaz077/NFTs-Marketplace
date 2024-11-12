@@ -109,30 +109,36 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-
 const followUser = async (req, res) => {
   const { userId, followId } = req.body;
   try {
-    const user = await User.findById(userId);
-    const userToFollow = await User.findById(followId);
+    // Retrieve both users simultaneously
+    const [user, userToFollow] = await Promise.all([
+      User.findById(userId),
+      User.findById(followId),
+    ]);
 
     if (!user || !userToFollow) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
     if (user.following.includes(followId)) {
-      return res.status(400).json({ success: false, message: "You are already following this user" });
+      return res.status(400).json({ success: false, message: "Already following this user" });
     }
 
+    // Add followId to user's following and userId to userToFollow's followers
     user.following.push(followId);
-    await user.save();
+    userToFollow.followers.push(userId);
 
-    if (!userToFollow.followers.includes(userId)) {
-      userToFollow.followers.push(userId);
-      await userToFollow.save();
-    }
+    // Save both updates concurrently
+    await Promise.all([user.save(), userToFollow.save()]);
 
-    return res.status(200).json({ success: true, message: "User followed successfully", userId, followId });
+    return res.status(200).json({
+      success: true,
+      message: "User followed successfully",
+      updatedFollowing: user.following,
+      updatedFollowers: userToFollow.followers,
+    });
   } catch (error) {
     console.error("Error following user:", error);
     res.status(500).json({ success: false, message: "Error following user", error: error.message });
@@ -142,26 +148,34 @@ const followUser = async (req, res) => {
 const unfollowUser = async (req, res) => {
   const { userId, unfollowId } = req.body;
   try {
-    const user = await User.findById(userId);
-    const userToUnfollow = await User.findById(unfollowId);
+    // Retrieve both users simultaneously
+    const [user, userToUnfollow] = await Promise.all([
+      User.findById(userId),
+      User.findById(unfollowId),
+    ]);
 
     if (!user || !userToUnfollow) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
+    // Filter out the unfollowId from user's following and userId from userToUnfollow's followers
     user.following = user.following.filter((id) => id.toString() !== unfollowId);
-    await user.save();
-
     userToUnfollow.followers = userToUnfollow.followers.filter((id) => id.toString() !== userId);
-    await userToUnfollow.save();
 
-    return res.status(200).json({ success: true, message: "User unfollowed successfully", userId, unfollowId });
+    // Save both updates concurrently
+    await Promise.all([user.save(), userToUnfollow.save()]);
+
+    return res.status(200).json({
+      success: true,
+      message: "User unfollowed successfully",
+      updatedFollowing: user.following,
+      updatedFollowers: userToUnfollow.followers,
+    });
   } catch (error) {
     console.error("Error unfollowing user:", error);
     res.status(500).json({ success: false, message: "Error unfollowing user", error: error.message });
   }
 };
-
 
 
 const getFollowers = async (req, res) => {

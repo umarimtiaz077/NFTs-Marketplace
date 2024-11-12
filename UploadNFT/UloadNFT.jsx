@@ -44,6 +44,29 @@ const UploadNFT = ({ uploadToIPFS, createNFT, uploadToPinata }) => {
     if (userId) fetchUserCollections();
   }, [userId]);
 
+
+  const handleUpload = async () => {
+    try {
+      // Step 1: Upload the image to IPFS/Pinata
+      if (!image) {
+        setError("Image file is missing.");
+        setOpenError(true);
+        return;
+      }
+
+      console.log("Uploading image to IPFS/Pinata...");
+      const imageUrl = await uploadToPinata(image); // Upload the image file
+      console.log("Image URL:", imageUrl);
+
+      // Step 2: Create NFT with the returned image URL
+      if (imageUrl) {
+        await createNFT(name, price, imageUrl, description, router); // Pass the URL
+      }
+    } catch (error) {
+      console.error("Error in handleUpload:", error);
+    }
+  };
+
   return (
     <div className={Style.upload}>
       <DropZone
@@ -169,9 +192,8 @@ const UploadNFT = ({ uploadToIPFS, createNFT, uploadToPinata }) => {
   <div className={Style.upload_box_btn}>
     <Button
       btnName="Upload"
-      handleClick={async () =>
-        createNFT(name, price, image, description, router)
-      }
+      handleClick={handleUpload} // Call handleUpload on click
+
       classStyle={Style.upload_box_btn_style}
     />
     <Button

@@ -133,13 +133,15 @@ export const NFTMarketplaceProvider = ({ children }) => {
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `fca64a85d8a3c08672aa`,
-          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+            pinata_api_key: `903b67a3e1321e0f4c47`,
+          pinata_secret_api_key: `2920c0e2e3d333c8b2b059a20b1e5ba1574b9e157075dac6b6cdef969123224a`,
             "Content-Type": "multipart/form-data",
           },
         });
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
 
+        console.log("image url iss..",ImgHash);
+        
         return ImgHash;
       } catch (error) {
         setError("Unable to upload image to Pinata");
@@ -164,8 +166,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
         url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
         data: data,
         headers: {
-          pinata_api_key: `fca64a85d8a3c08672aa`,
-          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+          pinata_api_key: `903b67a3e1321e0f4c47`,
+          pinata_secret_api_key: `2920c0e2e3d333c8b2b059a20b1e5ba1574b9e157075dac6b6cdef969123224a`,
           "Content-Type": "application/json",
         },
       });
@@ -352,45 +354,54 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
   
-
+  const followUser = async (followId) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/follow", {
+        userId,
+        followId,
+      });
+      if (response.data.success) {
+        console.log("Followed successfully:", response.data);
+        return { success: true, message: "Followed successfully" };
+      } else {
+        console.error("Failed to follow:", response.data.message);
+        return { success: false, message: response.data.message || "Failed to follow" };
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+      return { success: false, message: "Error following user" };
+    }
+  };
+  
+  const unfollowUser = async (unfollowId) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/unfollow", {
+        userId,
+        unfollowId,
+      });
+      if (response.data.success) {
+        console.log("Unfollowed successfully:", response.data);
+        return { success: true, message: "Unfollowed successfully" };
+      } else {
+        console.error("Failed to unfollow:", response.data.message);
+        return { success: false, message: response.data.message || "Failed to unfollow" };
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+      return { success: false, message: "Error unfollowing user" };
+    }
+  };
+  
   const isFollowingUser = async (targetUserId) => {
     try {
       const response = await axios.get(`http://localhost:5000/api/users/${userId}/followers`);
-      // Check if the target user ID is in the followers array
       return response.data.some((follower) => follower._id === targetUserId);
     } catch (error) {
       console.error("Error checking if following user:", error);
       return false;
     }
   };
-
-// In NFTMarketplaceContext.js
-const followUser = async (followId) => {
-  try {
-    const response = await axios.post("http://localhost:5000/api/users/follow", {
-      userId,
-      followId,
-    });
-    return response.data; // Ensure returning data
-  } catch (error) {
-    console.error("Error following user:", error);
-    return { success: false, message: error.message };
-  }
-};
-
-const unfollowUser = async (unfollowId) => {
-  try {
-    const response = await axios.post("http://localhost:5000/api/users/unfollow", {
-      userId,
-      unfollowId,
-    });
-    return response.data; // Ensure returning data
-  } catch (error) {
-    console.error("Error unfollowing user:", error);
-    return { success: false, message: error.message };
-  }
-};
-
+  
 
   useEffect(() => {
     const handleRouteChange = () => {

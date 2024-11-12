@@ -4,38 +4,23 @@ import { useRouter } from "next/router";
 import { MdVerified } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import Style from "./FollowerTabCard.module.css";
-import images from "../../../img";
 import { NFTMarketplaceContext } from "../../../Context/NFTMarketplaceContext";
 
-const FollowerTabCard = ({ i, el }) => {
-  const [following, setFollowing] = useState(false);
-  const { followUser, unfollowUser, isFollowingUser, userId } = useContext(NFTMarketplaceContext);
+const FollowerTabCard = ({ i, el, relationType, initialFollowing, onFollowStatusChange }) => {
+  const [following, setFollowing] = useState(initialFollowing);
+  const { followUser, unfollowUser, userId } = useContext(NFTMarketplaceContext);
   const router = useRouter();
 
-  // Check if this is the user's own profile
   const isOwnProfile = el.seller === userId;
 
-  // Debugging logs
-  console.log("Displayed Profile User ID (el.seller):", el.seller, "Type:", typeof el.seller);
-  console.log("Current User ID from Context (userId):", userId, "Type:", typeof userId);
-  console.log("Is Own Profile:", isOwnProfile);
+  const background = el.background || el.profileImage || "/default-background.jpg";
+  const profileImage = el.profileImage || el.background || "/default-profile.jpg";
 
+  // Check `initialFollowing` value on load to debug
   useEffect(() => {
-    if (!isOwnProfile) {
-      const fetchFollowingStatus = async () => {
-        if (el.seller) {
-          try {
-            const isFollowing = await isFollowingUser(el.seller);
-            console.log("Following status for user ID:", el.seller, "is", isFollowing); 
-            setFollowing(isFollowing); // Set initial follow status
-          } catch (error) {
-            console.error("Error fetching following status for user ID:", el.seller, error);
-          }
-        }
-      };
-      fetchFollowingStatus();
-    }
-  }, [el.seller, isOwnProfile]);
+    console.log(`[FollowerTabCard] Loaded for ${el.user || "Unnamed User"} with initialFollowing:`, initialFollowing);
+    setFollowing(initialFollowing);
+  }, [initialFollowing, el.user]);
 
   const toggleFollow = async (e) => {
     e.stopPropagation();
@@ -43,18 +28,14 @@ const FollowerTabCard = ({ i, el }) => {
       if (following) {
         const response = await unfollowUser(el.seller);
         if (response && response.success) {
-          console.log("Unfollowed user successfully");
           setFollowing(false);
-        } else {
-          console.error("Failed to unfollow user:", response?.message || "Unknown error");
+          if (onFollowStatusChange) onFollowStatusChange("Followers");
         }
       } else {
         const response = await followUser(el.seller);
         if (response && response.success) {
-          console.log("Followed user successfully");
           setFollowing(true);
-        } else {
-          console.error("Failed to follow user:", response?.message || "Unknown error");
+          if (onFollowStatusChange) onFollowStatusChange("Following");
         }
       }
     } catch (error) {
@@ -69,9 +50,12 @@ const FollowerTabCard = ({ i, el }) => {
     });
   };
 
-  const backgroundSrc = typeof el.background === "string" ? el.background : images[`creatorbackground${i + 1}`] || "/default-background.jpg";
-  const profileImageSrc = typeof el.profileImage === "string" ? el.profileImage : images[`user${i + 1}`] || "/default-profile.jpg";
-  const userName = typeof el.user === "string" ? el.user : "Unnamed User";
+  const renderFollowButton = () => {
+    if (isOwnProfile) return "You";
+    if (relationType === "follower") return following ? "Unfollow" : "Follow";
+    if (relationType === "following") return following ? "Unfollow" : "Follow";
+    return following ? "Unfollow" : "Follow";
+  };
 
   return (
     <div className={Style.FollowerTabCard} onClick={redirectToDetailPage}>
@@ -83,7 +67,7 @@ const FollowerTabCard = ({ i, el }) => {
         <div className={Style.FollowerTabCard_box_img}>
           <Image
             className={Style.FollowerTabCard_box_img_img}
-            src={backgroundSrc}
+            src={background}
             alt="profile background"
             width={500}
             height={300}
@@ -97,17 +81,15 @@ const FollowerTabCard = ({ i, el }) => {
             alt="profile picture"
             width={50}
             height={50}
-            src={profileImageSrc}
+            src={profileImage}
           />
         </div>
 
         <div className={Style.FollowerTabCard_box_info}>
           <div className={Style.FollowerTabCard_box_info_name}>
             <h4>
-              {userName}
-              <span>
-                <MdVerified />
-              </span>
+              {el.user || "Unnamed User"}
+              <span><MdVerified /></span>
             </h4>
             <p>{el.total || 0} ETH</p>
           </div>
@@ -120,10 +102,8 @@ const FollowerTabCard = ({ i, el }) => {
                 opacity: isOwnProfile ? 0.5 : 1,
               }}
             >
-              {isOwnProfile ? "You" : following ? "Unfollow" : "Follow"}
-              <span>
-                <TiTick />
-              </span>
+              {renderFollowButton()}
+              <span><TiTick /></span>
             </a>
           </div>
         </div>
