@@ -54,7 +54,42 @@ const contactus = () => {
               </a>
             </div>
           </div>
-          
+          <div className={Style.contactus_box_box_right}>
+            <form>
+              <div className={formStyle.Form_box_input}>
+                <label htmlFor="name">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="shoaib bhai"
+                  className={formStyle.Form_box_input_userName}
+                />
+              </div>
+              <div className={formStyle.Form_box_input}>
+                <label htmlFor="email">Email</label>
+                <div className={formStyle.Form_box_input_box}>
+                  <div className={formStyle.Form_box_input_box_icon}>
+                    <HiOutlineMail />
+                  </div>
+                  <input type="text" placeholder="Email*" />
+                </div>
+              </div>
+              <div className={formStyle.Form_box_input}>
+                <label htmlFor="description">Message</label>
+                <textarea
+                  name=""
+                  id=""
+                  cols="30"
+                  rows="6"
+                  placeholder="something about yourself in few words"
+                ></textarea>
+              </div>
+              <Button
+                btnName="Send Message"
+                handleClick={() => {}}
+                classStyle={Style.button}
+              />
+            </form>
+          </div>
         </div>
       </div>
     </div>
