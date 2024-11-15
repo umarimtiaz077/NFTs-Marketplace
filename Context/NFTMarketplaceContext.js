@@ -46,20 +46,26 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [openError, setOpenError] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
+<<<<<<< HEAD
   const [userId, setUserId] = useState(""); // New state for userId
 
+=======
+>>>>>>> smart-contract-deploy
   const [accountBalance, setAccountBalance] = useState("");
   const router = useRouter();
 
   //---CHECK IF WALLET IS CONNECTD
 
   const checkIfWalletConnected = async () => {
+<<<<<<< HEAD
     const isLoggedOut = localStorage.getItem("isLoggedOut");
     if (isLoggedOut === "true") {
       console.log("Wallet was previously logged out");
       return; // Skip connection check if user logged out
     }
   
+=======
+>>>>>>> smart-contract-deploy
     try {
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
@@ -91,6 +97,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   //---CONNET WALLET FUNCTION
   const connectWallet = async () => {
     try {
+<<<<<<< HEAD
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       setCurrentAccount(accounts[0]);
       await registerOrFetchUser(accounts[0]); // Fetch userId after connection
@@ -121,6 +128,21 @@ export const NFTMarketplaceProvider = ({ children }) => {
       console.log("Wallet disconnected successfully");
     } catch (error) {
       setError("Error while disconnecting wallet");
+=======
+      if (!window.ethereum)
+        return setOpenError(true), setError("Install MetaMask");
+      const network = await handleNetworkSwitch();
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      console.log(accounts);
+      setCurrentAccount(accounts[0]);
+
+      connectingWithSmartContract();
+    } catch (error) {
+      setError("Error while connecting to wallet");
+>>>>>>> smart-contract-deploy
       setOpenError(true);
     }
   };
@@ -349,8 +371,11 @@ export const NFTMarketplaceProvider = ({ children }) => {
         openError,
         error,
         accountBalance,
+<<<<<<< HEAD
         disconnectWallet,
         userId,
+=======
+>>>>>>> smart-contract-deploy
       }}
     >
       {children}

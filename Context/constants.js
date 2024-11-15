@@ -5,7 +5,11 @@ import nftMarketplace from "./NFTMarketplace.json";
 // export const NFTMarketplaceAddress =
 //   "0x620C57A2C821b4680090393891cA49Bd715c4813";
   export const NFTMarketplaceAddress =
+<<<<<<< HEAD
   "0x31b08046F235b82014538DFFAcB3B901F96779e7";
+=======
+  "0x5f7fEBEE00e20287712Cf6C95e21De741434a1fe";
+>>>>>>> smart-contract-deploy
 //--------LOCALHOST
 // export const NFTMarketplaceAddress =
 //   "0x5FbDB2315678afecb367f032d93F642f64180aa3";

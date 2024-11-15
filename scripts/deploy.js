@@ -14,5 +14,9 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
+<<<<<<< HEAD
 //npx hardhat run scripts/deploy.js --network polygon_amoy
+=======
+// npx hardhat run scripts/deploy.js --network polygon_amoy
+>>>>>>> smart-contract-deploy
 //npx hardhat run scripts/deploy.js --network localhost
