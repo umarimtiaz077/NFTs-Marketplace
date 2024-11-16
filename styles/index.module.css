@@ -1,0 +1,44 @@
+.centeredContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 3rem; /* Add space above Featured NFTs */
+    margin-bottom: 3rem; /* Reduce space below Featured NFTs */
+  }
+  
+  
+  .followerTab_member {
+    text-align: center;
+    margin-top: -1rem; /* Adjust this value to reduce space between Collection and Show me more */
+  }
+  
+  .followerTab_member_box {
+    margin: 0 auto;
+    padding: 3rem 0 0 0; /* Reduce padding-top to bring it closer to Collection */
+    align-items: center;
+  }
+  
+  
+  .followerTab_member_box a:first-child {
+    background-color: transparent;
+    color: var(--icons-color);
+    transition: all 0.3s ease-in;
+  }
+  
+  .followerTab_member_box a:hover {
+    background-color: var(--icons-color);
+    color: var(--main-bg-color);
+  }
+  
+  .followerTab_member_box a {
+    background-color: var(--icons-color);
+    margin-inline: 1.5rem;
+    padding: 1rem 2rem;
+    color: var(--main-bg-color);
+    border-radius: 2rem;
+    border: 1px solid var(--icons-color);
+    box-shadow: var(--box-shadow);
+    font-size: 1.3rem;
+  }
+  
