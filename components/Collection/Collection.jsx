@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { BsFillAlarmFill, BsFillCalendarDateFill, BsCalendar3 } from "react-icons/bs";
+import {
+  BsFillAlarmFill,
+  BsFillCalendarDateFill,
+  BsCalendar3,
+} from "react-icons/bs";
 import axios from "axios";
 
 // INTERNAL IMPORT
 import Style from "./Collection.module.css";
 import DaysComponent from "./DaysComponents/DaysComponents";
 
-const Collection = () => {
+const Collection = ({ slices }) => {
   const [collections, setCollections] = useState([]);
   const [filteredCollections, setFilteredCollections] = useState([]);
   const [popular, setPopular] = useState(true);
@@ -17,7 +21,9 @@ const Collection = () => {
   useEffect(() => {
     const fetchCollections = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/collection");
+        const response = await axios.get(
+          "http://localhost:5000/api/collection"
+        );
         setCollections(response.data.collections);
         setFilteredCollections(response.data.collections); // Populate filteredCollections initially
       } catch (error) {
@@ -78,9 +84,20 @@ const Collection = () => {
       </div>
 
       <div className={Style.collection_box}>
-        {filteredCollections.map((collection, index) => (
-          <DaysComponent key={collection._id} el={collection} i={index} />
-        ))}
+        {slices && (
+          <>
+            {filteredCollections.slice(0, 3).map((collection, index) => (
+              <DaysComponent key={collection._id} el={collection} i={index} />
+            ))}
+          </>
+        )}
+        {!slices && (
+          <>
+            {filteredCollections.map((collection, index) => (
+              <DaysComponent key={collection._id} el={collection} i={index} />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
