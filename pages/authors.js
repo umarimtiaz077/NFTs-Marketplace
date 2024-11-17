@@ -20,13 +20,13 @@ const Authors = () => {
           following: await isFollowingUser(profile.seller),
         }))
       );
-
+    
       const mappedStatuses = Object.fromEntries(statuses.map((s) => [s.id, s.following]));
       setFollowingStatuses(mappedStatuses);
     };
     
     fetchProfiles();
-  }, [fetchAllProfiles, userId]);
+  }, [fetchAllProfiles, userId]);  
 
   return (
     <div className={Style.author}>
@@ -37,7 +37,7 @@ const Authors = () => {
             key={i}
             i={i}
             el={profile}
-            relationType="none"
+            relationType={"following"}
             initialFollowing={followingStatuses[profile.seller] || false} 
           />
         ))}
