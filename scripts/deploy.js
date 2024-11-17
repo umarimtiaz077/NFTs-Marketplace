@@ -15,8 +15,12 @@ main().catch((error) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //npx hardhat run scripts/deploy.js --network polygon_amoy
 =======
 // npx hardhat run scripts/deploy.js --network polygon_amoy
 >>>>>>> smart-contract-deploy
+=======
+// npx hardhat run scripts/deploy.js --network polygon_amoy
+>>>>>>> nft-pinata-branch
 //npx hardhat run scripts/deploy.js --network localhost

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Web3Modal from "web3modal";
-import { ethers } from "ethers";
+import { ethers, logger } from "ethers";
 import { useRouter } from "next/router";
 import axios from "axios";
 
@@ -48,6 +48,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
 <<<<<<< HEAD
   const [userId, setUserId] = useState(""); // New state for userId
+  const [walletAddress, setwalletAddress] = useState(""); // New state for userId
 
 =======
 >>>>>>> smart-contract-deploy
@@ -58,6 +59,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   const checkIfWalletConnected = async () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
     const isLoggedOut = localStorage.getItem("isLoggedOut");
     if (isLoggedOut === "true") {
       console.log("Wallet was previously logged out");
@@ -66,6 +68,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
   
 =======
 >>>>>>> smart-contract-deploy
+=======
+>>>>>>> nft-pinata-branch
     try {
       if (!window.ethereum)
         return setOpenError(true), setError("Install MetaMask");
@@ -98,7 +102,13 @@ export const NFTMarketplaceProvider = ({ children }) => {
   const connectWallet = async () => {
     try {
 <<<<<<< HEAD
+<<<<<<< HEAD
       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+=======
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+>>>>>>> nft-pinata-branch
       setCurrentAccount(accounts[0]);
       await registerOrFetchUser(accounts[0]); // Fetch userId after connection
     } catch (error) {
@@ -108,12 +118,16 @@ export const NFTMarketplaceProvider = ({ children }) => {
 
   const registerOrFetchUser = async (walletAddress) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", {
-        walletAddress,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/users/register",
+        {
+          walletAddress,
+        }
+      );
       if (response.data.user) {
-        console.log("asdad",response)
+        console.log("asdad", response);
         setUserId(response.data.user._id); // Save userId globally
+        setwalletAddress(walletAddress);
       }
     } catch (error) {
       console.error("Error registering or fetching user:", error);
@@ -159,12 +173,14 @@ export const NFTMarketplaceProvider = ({ children }) => {
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
           data: formData,
           headers: {
-            pinata_api_key: `fca64a85d8a3c08672aa`,
-          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
+            pinata_api_key:  `717ecefadeb60ceac995`, 
+            pinata_secret_api_key: `34e3c927ed9a2462e46ec299d941af9ac62d6b2273f7f0fe36c082f289fef2d1`, 
             "Content-Type": "multipart/form-data",
           },
         });
         const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+
+        console.log("image url iss..", ImgHash);
 
         return ImgHash;
       } catch (error) {
@@ -178,7 +194,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   //---CREATENFT FUNCTION
-  const createNFT = async (name, price, image, description, router) => {
+  const createNFT = async (name, price, image, description, router, website, royalties, fileSize, category,category_id, properties, userAddress ) => {
     if (!name || !description || !price || !image)
       return setError("Data Is Missing"), setOpenError(true);
 
@@ -190,9 +206,9 @@ export const NFTMarketplaceProvider = ({ children }) => {
         url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
         data: data,
         headers: {
-          pinata_api_key: `fca64a85d8a3c08672aa`,
-          pinata_secret_api_key: `351e9974e56f00c9d64c3f57519142683166331358daba1e2fc709b8dbb044b4`,
-          "Content-Type": "application/json",
+          pinata_api_key:  `717ecefadeb60ceac995`, 
+          pinata_secret_api_key: `34e3c927ed9a2462e46ec299d941af9ac62d6b2273f7f0fe36c082f289fef2d1`, 
+        "Content-Type": "application/json",
         },
       });
 
@@ -200,6 +216,8 @@ export const NFTMarketplaceProvider = ({ children }) => {
       console.log(url);
 
       await createSale(url, price);
+      console.log(name, price, image, description, router, website, royalties, fileSize, category,category_id, properties, userAddress, 'checking')
+      storeNFTinbackend( name, website, description, royalties, fileSize, category,category_id, properties, price, userAddress, url);
       router.push("/searchPage");
     } catch (error) {
       setError("Error while creating NFT");
@@ -230,6 +248,32 @@ export const NFTMarketplaceProvider = ({ children }) => {
       setError("error while creating sale");
       setOpenError(true);
       console.log(error);
+    }
+  };
+
+  const storeNFTinbackend = async (itemName, website,  description, royalties, fileSize, category,
+    category_id,
+       properties, price, userAddress, image) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/nfts/create`,
+        {
+          itemName, website, description, royalties, fileSize, category,category_id,  properties, price, userAddress, image
+        }
+      );
+      if (response.data.success) {
+        console.log("NFTdata feeded", response.data);
+        return { success: true, message: "Followed successfully" };
+      } else {
+        console.error("Failed to follow:", response.data.message);
+        return {
+          success: false,
+          message: response.data.message || "Failed to follow",
+        };
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+      return { success: false, message: "Error following user" };
     }
   };
 
@@ -354,9 +398,205 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   };
 
+  const fetchAllProfiles = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/users");
+
+      // Logging each user's data as it is processed
+      return response.data.map((user) => {
+        console.log("Fetched User Data:", {
+          username: user.username || "Unnamed User",
+          profileImage: user.profileImage || "/default-background.jpg",
+          sellerId: user._id || user.walletAddress || "unknown",
+        });
+
+        return {
+          background: user.profileImage || "/default-background.jpg", // Set background with a default fallback
+          user: user.username || "Unnamed User", // Set a username with a default fallback
+          seller: user._id || user.walletAddress || "unknown", // Ensure seller is set to _id or walletAddress
+        };
+      });
+    } catch (error) {
+      console.error("Error fetching profiles:", error);
+      return [];
+    }
+  };
+
+  const followUser = async (followId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/follow",
+        {
+          userId,
+          followId,
+        }
+      );
+      if (response.data.success) {
+        console.log("Followed successfully:", response.data);
+        return { success: true, message: "Followed successfully" };
+      } else {
+        console.error("Failed to follow:", response.data.message);
+        return {
+          success: false,
+          message: response.data.message || "Failed to follow",
+        };
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+      return { success: false, message: "Error following user" };
+    }
+  };
+
+
+  const likedNFT = async (imageString) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/nfts/like`,
+        {
+          userAddress:walletAddress,
+          imageString,
+        }
+      );
+      if (response.data.success) {
+        console.log("Followed successfully:", response.data);
+        return { success: true, message: "Followed successfully" };
+      } else {
+        console.error("Failed to follow:", response.data.message);
+        return {
+          success: false,
+          message: response.data.message || "Failed to follow",
+        };
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+      return { success: false, message: "Error following user" };
+    }
+  };
+  const unlikedNFT = async (imageString) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/nfts/unlike`,
+        {
+          userAddress:walletAddress,
+          imageString,
+        }
+      );
+      if (response.data.success) {
+        console.log("Followed successfully:", response.data);
+        return { success: true, message: "Followed successfully" };
+      } else {
+        console.error("Failed to follow:", response.data.message);
+        return {
+          success: false,
+          message: response.data.message || "Failed to follow",
+        };
+      }
+    } catch (error) {
+      console.error("Error following user:", error);
+      return { success: false, message: "Error following user" };
+    }
+  };
+
+  const checkNFTLiked = async (imageString) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/nfts/check-like`,
+        {
+          userAddress: walletAddress, // Make sure walletAddress is passed correctly
+          imageString,
+        }
+      );
+  
+      if (response.data) {
+        // Check if the user has liked the NFT and the like count
+        const { hasLiked, likeCount } = response.data;
+  
+        console.log(`Like status: ${hasLiked ? "Liked" : "Not Liked"}`);
+        console.log(`Like count: ${likeCount}`);
+  
+        return {
+          success: true,
+          message: `Like status: ${hasLiked ? "Liked" : "Not Liked"}`,
+          likeCount,
+          hasLiked,
+        };
+      } else {
+        console.error("Failed to check like status:", response.data.message);
+        return {
+          success: false,
+          message: response.data.message || "Failed to check like status",
+        };
+      }
+    } catch (error) {
+      console.error("Error checking like status:", error);
+      return { success: false, message: "Error checking like status" };
+    }
+  };
+  
+
+
+
+  const unfollowUser = async (unfollowId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/unfollow",
+        {
+          userId,
+          unfollowId,
+        }
+      );
+      if (response.data.success) {
+        console.log("Unfollowed successfully:", response.data);
+        return { success: true, message: "Unfollowed successfully" };
+      } else {
+        console.error("Failed to unfollow:", response.data.message);
+        return {
+          success: false,
+          message: response.data.message || "Failed to unfollow",
+        };
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+      return { success: false, message: "Error unfollowing user" };
+    }
+  };
+
+  const isFollowingUser = async (targetUserId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}/followers`
+      );
+      // logger.info("Response data:", response.data);
+      // logger.info("Response data00000000000000000000000000000000000:", response.data.following);
+      if (response.data.following === targetUserId) {
+        console.log("wewrewr", targetUserId);
+        return true;
+      }
+      return response.data.following;
+      // return response.data.some((following) => following._id=== targetUserId);
+    } catch (error) {
+      console.error("Error checking if following user:", error);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (currentAccount) {
+        registerOrFetchUser(currentAccount);
+      }
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router, currentAccount]);
+
   return (
     <NFTMarketplaceContext.Provider
       value={{
+        fetchAllProfiles,
         uploadToPinata,
         checkIfWalletConnected,
         connectWallet,
@@ -374,8 +614,19 @@ export const NFTMarketplaceProvider = ({ children }) => {
 <<<<<<< HEAD
         disconnectWallet,
         userId,
+<<<<<<< HEAD
 =======
 >>>>>>> smart-contract-deploy
+=======
+        followUser,
+        unfollowUser,
+        isFollowingUser,
+        likedNFT,
+        unlikedNFT,
+        checkNFTLiked,
+        walletAddress,
+        // ListLikedNFT
+>>>>>>> nft-pinata-branch
       }}
     >
       {children}

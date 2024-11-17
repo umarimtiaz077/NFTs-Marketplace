@@ -1,13 +1,27 @@
+// userRoutes.js
 const express = require("express");
 const multer = require("multer");
-const { registerOrLoginUser, updateUserProfile, getUserProfile } = require("../controllers/userController");
+const {
+  registerOrLoginUser,
+  updateUserProfile,
+  getUserProfile,
+  getUserProfileById,
+  getAllUsers,
+  followUser,
+  getFollowers,
+  getFollowing,
+  getFollowCount,
+  getLikedNFTs,
+  getOwnedNFTs,
+  getCreatedNFTs,
+  unfollowUser,
+} = require("../controllers/userController");
 
 const router = express.Router();
 
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); 
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -17,22 +31,32 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Define routes
 router.post("/register", registerOrLoginUser);
 router.put("/update-profile", upload.single("file"), updateUserProfile);
 router.get("/:account", getUserProfile);
+router.get("/profile/:userId", getUserProfileById);
+
+router.get("/", getAllUsers);
+router.post("/follow", followUser);
+router.post("/unfollow", unfollowUser);
+router.get("/:userId/followers", getFollowers);
+router.get("/:userId/following", getFollowing);
+router.get("/:userId/follow-count", getFollowCount);
+router.get("/:userId/liked-nfts", getLikedNFTs);
+router.get("/:userId/owned-nfts", getOwnedNFTs);
+router.get("/:userId/created-nfts", getCreatedNFTs);
 
 //new 
 // Get all users
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find(); // Fetch all users from the database
-    res.status(200).json(users); // Send the list of users as a JSON response
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ message: "Error fetching users", error });
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     const users = await User.find(); // Fetch all users from the database
+//     res.status(200).json(users); // Send the list of users as a JSON response
+//   } catch (error) {
+//     console.error("Error fetching users:", error);
+//     res.status(500).json({ message: "Error fetching users", error });
+//   }
+// });
 
 // Follow another user
 router.post("/follow", async (req, res) => {
@@ -120,6 +144,33 @@ router.get("/:userId/liked-nfts", async (req, res) => {
     res.status(500).json({ message: "Error fetching liked NFTs", error });
   }
 });
+
+// Unliking an NFT
+router.post("/:userId/unlike-nft", async (req, res) => {
+  const { userId } = req.params;
+  const { nftId } = req.body; // NFT ID to be unliked
+  
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the NFT is already liked
+    if (!user.likedNFTs.includes(nftId)) {
+      return res.status(400).json({ message: "NFT is not in your liked list" });
+    }
+
+    // Remove the NFT ID from the likedNFTs array
+    user.likedNFTs = user.likedNFTs.filter((id) => id.toString() !== nftId);
+
+    await user.save(); // Save the changes
+    res.status(200).json({ message: "NFT unliked successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error unliking NFT", error });
+  }
+});
+
 
 // Get owned NFTs
 router.get("/:userId/owned-nfts", async (req, res) => {

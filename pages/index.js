@@ -49,6 +49,8 @@ const Home = () => {
   // CREATOR LIST
   const creators = getTopCreators(nfts || []); // Ensure creators is always an array
 
+  console.log(nfts);
+  
   return (
     <div className={Style.homePage}>
       <HeroSection />
@@ -58,10 +60,10 @@ const Home = () => {
       {creators.length === 0 ? (
         <Loader />
       ) : (
-        <FollowerTab TopCreator={creators} />
+        <FollowerTab isslice={3} TopCreator={creators} />
       )}
 
-      <Collection />
+      <Collection  slices={3}/>
       <div className={Style.followerTab_member}>
         <div className={Style.followerTab_member_box}>
           <a href="collectionsPage">Show me more</a>
@@ -72,7 +74,7 @@ const Home = () => {
         <Title heading="Featured NFTs" />
       </div>
 
-      {nfts.length === 0 ? <Loader /> : <NFTCard NFTData={nfts} />}
+      {nfts.length === 0 ? <Loader /> : <NFTCard isslice={2}  NFTData={nfts} />}
       
       <div className={Style.followerTab_member}>
         <div className={Style.followerTab_member_box}>

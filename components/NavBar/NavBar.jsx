@@ -6,6 +6,7 @@ import { MdNotifications } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { CgMenuRight } from "react-icons/cg";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 // INTERNAL IMPORT
 =======
@@ -43,10 +44,32 @@ const NavBar = () => {
   const [profile, setProfile] = useState(false);
   const [openSideMenu, setOpenSideMenu] = useState(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  const [profileImage, setProfileImage] = useState(null); // State for profile image
+>>>>>>> nft-pinata-branch
   const navbarRef = useRef(null); // Create a ref for the navbar
 
   const router = useRouter();
-  const { currentAccount, connectWallet, openError } = useContext(NFTMarketplaceContext);
+  const { currentAccount, connectWallet, openError } = useContext(
+    NFTMarketplaceContext
+  );
+
+  // Fetch the user's profile data and set profile image when currentAccount changes
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${currentAccount}`
+        );
+        setProfileImage(response.data.user?.profileImage || images.founder1); // Set fetched image or fallback
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    if (currentAccount) fetchProfileData();
+  }, [currentAccount]);
 
   const handleClickOutside = (event) => {
     // Check if the click is outside the navbar and its menus
@@ -145,6 +168,7 @@ const NavBar = () => {
 <<<<<<< HEAD
         <div className={Style.navbar_container_right}>
           <div className={Style.navbar_container_right_discover}>
+<<<<<<< HEAD
             <p onClick={() => { setDiscover(!discover); setHelp(false); setNotification(false); setProfile(false); }}>Discover</p>
 =======
         {/* //END OF LEFT SECTION */}
@@ -153,6 +177,18 @@ const NavBar = () => {
             {/* DISCOVER MENU */}
             <p onClick={(e) => openMenu(e)}>Discover</p>
 >>>>>>> collaborator-branch
+=======
+            <p
+              onClick={() => {
+                setDiscover(!discover);
+                setHelp(false);
+                setNotification(false);
+                setProfile(false);
+              }}
+            >
+              Discover
+            </p>
+>>>>>>> nft-pinata-branch
             {discover && (
               <div className={Style.navbar_container_right_discover_box}>
                 <Discover />
@@ -162,12 +198,25 @@ const NavBar = () => {
 
 <<<<<<< HEAD
           <div className={Style.navbar_container_right_help}>
+<<<<<<< HEAD
             <p onClick={() => { setHelp(!help); setDiscover(false); setNotification(false); setProfile(false); }}>Help Center</p>
 =======
           {/* HELP CENTER MENU */}
           <div className={Style.navbar_container_right_help}>
             <p onClick={(e) => openMenu(e)}>Help Center</p>
 >>>>>>> collaborator-branch
+=======
+            <p
+              onClick={() => {
+                setHelp(!help);
+                setDiscover(false);
+                setNotification(false);
+                setProfile(false);
+              }}
+            >
+              Help Center
+            </p>
+>>>>>>> nft-pinata-branch
             {help && (
               <div className={Style.navbar_container_right_help_box}>
                 <HelpCenter />
@@ -179,6 +228,7 @@ const NavBar = () => {
           <div className={Style.navbar_container_right_notify}>
             <MdNotifications
               className={Style.notify}
+<<<<<<< HEAD
               onClick={() => { setNotification(!notification); setDiscover(false); setHelp(false); setProfile(false); }}
 =======
           {/* NOTIFICATION */}
@@ -187,6 +237,14 @@ const NavBar = () => {
               className={Style.notify}
               onClick={() => openNotification()}
 >>>>>>> collaborator-branch
+=======
+              onClick={() => {
+                setNotification(!notification);
+                setDiscover(false);
+                setHelp(false);
+                setProfile(false);
+              }}
+>>>>>>> nft-pinata-branch
             />
             {notification && <Notification />}
           </div>
@@ -216,7 +274,7 @@ const NavBar = () => {
           <div className={Style.navbar_container_right_profile_box}>
             <div className={Style.navbar_container_right_profile}>
               <Image
-                src={images.user1}
+                src={profileImage || images.founder1} // Replace with a valid fallback path
                 alt="Profile"
                 width={40}
                 height={40}
@@ -224,12 +282,16 @@ const NavBar = () => {
                 onClick={() => setProfile(!profile)}
                 className={Style.navbar_container_right_profile}
               />
+<<<<<<< HEAD
 =======
                 onClick={() => openProfile()}
                 className={Style.navbar_container_right_profile}
               />
 
 >>>>>>> collaborator-branch
+=======
+
+>>>>>>> nft-pinata-branch
               {profile && <Profile currentAccount={currentAccount} />}
             </div>
           </div>

@@ -16,6 +16,7 @@ import Style from "./FollowerTab.module.css";
 import FollowerTabCard from "./FollowerTabCard/FollowerTabCard";
 import images from "../../img";
 
+<<<<<<< HEAD
 const FollowerTab = ({ TopCreator }) => {
 <<<<<<< HEAD
   const router = useRouter();
@@ -135,6 +136,11 @@ const FollowerTab = ({ TopCreator }) => {
     },
   ];
 
+=======
+const FollowerTab = ({ isslice, TopCreator }) => {
+  const router = useRouter();
+
+>>>>>>> nft-pinata-branch
   const [popular, setPopular] = useState(true);
   const [following, setFollowing] = useState(false);
   const [news, setNews] = useState(false);
@@ -167,8 +173,14 @@ const FollowerTab = ({ TopCreator }) => {
     router.push(`/author?seller=${seller}`); // Navigate to author.js with seller ID in query
   };
 
+<<<<<<< HEAD
 =======
 >>>>>>> collaborator-branch
+=======
+  console.log(popular, following, news, TopCreator);
+  
+
+>>>>>>> nft-pinata-branch
   return (
     <div className={Style.followerTab}>
       <div className={Style.followerTab_title}>
@@ -188,6 +200,7 @@ const FollowerTab = ({ TopCreator }) => {
         </div>
       </div>
 
+<<<<<<< HEAD
       {popular && (
         <div className={Style.followerTab_box}>
           {TopCreator.map((el, i) => (
@@ -200,9 +213,40 @@ const FollowerTab = ({ TopCreator }) => {
 >>>>>>> collaborator-branch
           ))}
         </div>
+=======
+      {isslice ? (
+        <>
+          {popular && (
+            <div className={Style.followerTab_box}>
+              {TopCreator.slice(0, 3).map((el, i) => (
+                <div
+                  key={i + 1}
+                  onClick={() => redirectToDetailPage(el.seller)}
+                >
+                  <FollowerTabCard i={i} el={el} />
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {popular && (
+            <div className={Style.followerTab_box}>
+              {TopCreator.map((el, i) => (
+                <div
+                  key={i + 1}
+                  onClick={() => redirectToDetailPage(el.seller)}
+                >
+                  <FollowerTabCard i={i} el={el} />
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+>>>>>>> nft-pinata-branch
       )}
-
-      {following && (
+      {/* {following && (
         <div className={Style.followerTab_box}>
           {FollowingArray.map((el, i) => (
 <<<<<<< HEAD
@@ -228,7 +272,7 @@ const FollowerTab = ({ TopCreator }) => {
 >>>>>>> collaborator-branch
           ))}
         </div>
-      )}
+      )} */}
 
       <div className={Style.followerTab_member}>
         <div className={Style.followerTab_member_box}>

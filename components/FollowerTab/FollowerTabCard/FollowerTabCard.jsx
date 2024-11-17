@@ -1,25 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useRouter } from "next/router"; // Import useRouter from Next.js
+=======
+import { useRouter } from "next/router";
+>>>>>>> nft-pinata-branch
 import { MdVerified } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
 import Style from "./FollowerTabCard.module.css";
-import images from "../../../img";
+import { NFTMarketplaceContext } from "../../../Context/NFTMarketplaceContext";
 
-const FollowerTabCard = ({ i, el }) => {
-  const [following, setFollowing] = useState(false);
-  const router = useRouter(); // Initialize router
+const FollowerTabCard = ({ i, el, relationType, initialFollowing, onFollowStatusChange }) => {
+  const [following, setFollowing] = useState(initialFollowing);
+  const { followUser, unfollowUser, userId } = useContext(NFTMarketplaceContext);
+  const router = useRouter();
 
-  const followMe = () => {
-    setFollowing(!following);
+  const isOwnProfile = el.seller === userId;
+
+  const background = el.background || el.profileImage || "/default-background.jpg";
+  const profileImage = el.profileImage || el.background || "/default-profile.jpg";
+
+  // Check `initialFollowing` value on load to debug
+  useEffect(() => {
+    console.log(`[FollowerTabCard] Loaded for ${el.user || "Unnamed User"} with initialFollowing:`, initialFollowing);
+    setFollowing(initialFollowing);
+  }, [initialFollowing, el.user]);
+
+  const toggleFollow = async (e) => {
+    e.stopPropagation();
+    try {
+      if (following) {
+        const response = await unfollowUser(el.seller);
+        if (response && response.success) {
+          setFollowing(false);
+          if (onFollowStatusChange) onFollowStatusChange("Followers");
+        }
+      } else {
+        const response = await followUser(el.seller);
+        if (response && response.success) {
+          setFollowing(true);
+          if (onFollowStatusChange) onFollowStatusChange("Following");
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling follow status:", error);
+    }
   };
 
   const redirectToDetailPage = () => {
     router.push({
-      pathname: '/detailUser',
-      query: { seller: el.seller }, // Pass seller ID as a query parameter
+      pathname: "/detailUser",
+      query: { seller: el.seller },
     });
+  };
+
+  const renderFollowButton = () => {
+    if (isOwnProfile) return "You";
+    if (relationType === "follower") return following ? "Unfollow" : "Follow";
+    if (relationType === "following") return following ? "Unfollow" : "Follow";
+    return following ? "Unfollow" : "Follow";
   };
 
   return (
@@ -56,8 +96,12 @@ const FollowerTabCard = ({ i, el }) => {
         <div className={Style.FollowerTabCard_box_img}>
           <Image
             className={Style.FollowerTabCard_box_img_img}
+<<<<<<< HEAD
             src={el.background || images[`creatorbackground${i + 1}`]}
 <<<<<<< HEAD
+=======
+            src={background}
+>>>>>>> nft-pinata-branch
             alt="profile background"
 =======
             alt="profile braground"
@@ -74,13 +118,14 @@ const FollowerTabCard = ({ i, el }) => {
             alt="profile picture"
             width={50}
             height={50}
-            src={el.user || images[`user${i + 1}`]}
+            src={profileImage}
           />
         </div>
 
         <div className={Style.FollowerTabCard_box_info}>
           <div className={Style.FollowerTabCard_box_info_name}>
             <h4>
+<<<<<<< HEAD
               {el.seller.slice(0, 9)}
 <<<<<<< HEAD
 =======
@@ -89,17 +134,33 @@ const FollowerTabCard = ({ i, el }) => {
               <span>
                 <MdVerified />
               </span>
+=======
+              {el.user || "Unnamed User"}
+              <span><MdVerified /></span>
+>>>>>>> nft-pinata-branch
             </h4>
             <p>{el.total || 0} ETH</p>
           </div>
 
           <div className={Style.FollowerTabCard_box_info_following}>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <a onClick={(e) => { e.stopPropagation(); followMe(); }}>
               {following ? 'Following' : 'Follow'}
               <span>
                 <TiTick />
               </span>
+=======
+            <a
+              onClick={toggleFollow}
+              style={{
+                pointerEvents: isOwnProfile ? "none" : "auto",
+                opacity: isOwnProfile ? 0.5 : 1,
+              }}
+            >
+              {renderFollowButton()}
+              <span><TiTick /></span>
+>>>>>>> nft-pinata-branch
             </a>
 =======
             {following ? (

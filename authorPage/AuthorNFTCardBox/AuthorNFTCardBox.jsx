@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 <<<<<<< HEAD
 //INTERNAL IMPORT
@@ -10,6 +10,8 @@ import images from "../../img";
 import { NFTCardTwo } from "../../collectionPage/collectionIndex";
 import FollowerTabCard from "../../components/FollowerTab/FollowerTabCard/FollowerTabCard";
 import { Loader } from "../../components/componentsindex";
+import LikeNFTCardTwo from "../../collectionPage/NFTCardTwo/LikeNFTCard";
+import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext";
 
 const AuthorNFTCardBox = ({
   collectiables,
@@ -19,32 +21,10 @@ const AuthorNFTCardBox = ({
   following,
   nfts,
   myNFTS,
+
 }) => {
-  // const collectiablesArray = [
-  //   images.nft_image_1,
-  //   images.nft_image_2,
-  //   images.nft_image_3,
-  //   images.nft_image_1,
-  //   images.nft_image_2,
-  //   images.nft_image_3,
-  //   images.nft_image_1,
-  //   images.nft_image_2,
-  // ];
-
-  // const createdArray = [
-  //   images.nft_image_1,
-  //   images.nft_image_2,
-  //   images.nft_image_3,
-  //   images.nft_image_1,
-  // ];
-
-  // const likeArray = [
-  //   images.nft_image_1,
-  //   images.nft_image_2,
-  //   images.nft_image_3,
-  //   images.nft_image_1,
-  //   images.nft_image_2,
-  // ];
+  const { walletAddress } =
+  useContext(NFTMarketplaceContext);
 
   const followerArray = [
     {
@@ -109,9 +89,10 @@ const AuthorNFTCardBox = ({
 
   return (
     <div className={Style.AuthorNFTCardBox}>
-      {collectiables && <NFTCardTwo NFTData={nfts} />}
-      {created && <NFTCardTwo NFTData={myNFTS} />}
-      {like && <NFTCardTwo NFTData={nfts} />}
+      {collectiables && <NFTCardTwo   />}
+      {created && <LikeNFTCardTwo NFTData={nfts} wallet_address={walletAddress} />}
+      {like && <NFTCardTwo  NFTData={myNFTS} />
+      }
       {follower && (
         <div className={Style.AuthorNFTCardBox_box}>
           {followerArray.map((el, i) => (
