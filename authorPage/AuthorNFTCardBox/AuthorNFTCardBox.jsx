@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
+<<<<<<< HEAD
 //INTERNAL IMPORT
+=======
+
+>>>>>>> collaborator-branch
 import Style from "./AuthorNFTCardBox.module.css";
 import images from "../../img";
 import { NFTCardTwo } from "../../collectionPage/collectionIndex";

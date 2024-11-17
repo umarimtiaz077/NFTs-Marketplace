@@ -51,7 +51,11 @@
 
 .collectionProfile_box_middle{
     display: grid;
+<<<<<<< HEAD
     align-self: center;
+=======
+    align-self: flex-start;
+>>>>>>> collaborator-branch
 }
 
 .collectionProfile_box_middle h1{

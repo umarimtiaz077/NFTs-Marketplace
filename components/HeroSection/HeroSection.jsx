@@ -27,6 +27,7 @@ const HeroSection = () => {
             handleClick={() => router.push("/searchPage")}
           />
         </div>
+<<<<<<< HEAD
         <div className={Style.heroSection_box_right}>
           <Image
             src={images.hero}
@@ -35,6 +36,9 @@ const HeroSection = () => {
             height={600}
           />
         </div>
+=======
+        
+>>>>>>> collaborator-branch
       </div>
     </div>
   );

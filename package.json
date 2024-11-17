@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "nfttemplatevideo",
   "version": "0.1.0",
   "private": true,
@@ -25,4 +26,16 @@
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "hardhat": "^2.11.2"
   }
+=======
+  "name": "nftmarketplace_frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+>>>>>>> collaborator-branch
 }
