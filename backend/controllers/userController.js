@@ -1,3 +1,4 @@
+// @ts-nocheck
 const User = require("../models/User"); 
 
 const registerOrLoginUser = async (req, res) => {
@@ -177,12 +178,11 @@ const unfollowUser = async (req, res) => {
   }
 };
 
-
 const getFollowers = async (req, res) => {
-  const { userId } = req.params;
+  const { userId } = req.params;  
   try {
     const user = await User.findById(userId).populate("followers");
-    res.status(200).json(user.followers);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Error fetching followers", error });
   }
