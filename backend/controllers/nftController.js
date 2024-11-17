@@ -1,7 +1,7 @@
 const NFT = require('../models/NFT');
 
 exports.createNFT = async (req, res) => {
-  const { itemName, website, description, royalties, fileSize, category, properties, price, userAddress, image } = req.body;
+  const { itemName, website, description, royalties, fileSize, category, category_id,properties, price, userAddress, image } = req.body;
 
   if (!itemName || !userAddress) {
     return res.status(400).json({ message: "Item name and user address are required." });
@@ -14,6 +14,7 @@ exports.createNFT = async (req, res) => {
     royalties,
     fileSize,
     category,
+    category_id,
     properties,
     price,
     userAddress,
